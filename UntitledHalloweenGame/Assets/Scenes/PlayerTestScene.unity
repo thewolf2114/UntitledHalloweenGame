@@ -189,6 +189,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dc68e774ff974a4f8d394373a8cbe1d, type: 3}
+--- !u!1 &439946850 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6662072206626861987, guid: 5dc68e774ff974a4f8d394373a8cbe1d,
+    type: 3}
+  m_PrefabInstance: {fileID: 10397680}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &439946854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439946850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 735f9b09a14c91c479915acab61a2af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileStart: {fileID: 1426393914}
+  reticle: {fileID: 2133355174}
+  projectile: {fileID: 5680191769891310112, guid: ed5be8140ebfb0a459c354ed11b337d5,
+    type: 3}
+  distance: 5
+  projectileSpeed: 100
+  shootTimer: 0.25
 --- !u!1 &782836104
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,6 +405,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!4 &1426393914 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8764007285337895773, guid: 5dc68e774ff974a4f8d394373a8cbe1d,
+    type: 3}
+  m_PrefabInstance: {fileID: 10397680}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1457164338
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,7 +602,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -7.7, y: -34.3}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2133355175

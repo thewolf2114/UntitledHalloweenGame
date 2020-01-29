@@ -7,15 +7,36 @@ using UnityEngine;
 /// </summary>
 public class PlayerShoot : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Transform projectileStart;
+    public Transform reticle;
+    public GameObject projectile;
+    public int distance = 5;
+    public int projectileSpeed = 50;
+    public float shootTimer = 0.25f;
+    bool canShoot = true;
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0) && canShoot)
+        {
+            canShoot = false;
+            SpawnAndShoot();
+            StartCoroutine("ShootTimer");
+        }
+    }
+
+    void SpawnAndShoot()
+    {
+        GameObject spawnedProjectile = Instantiate(projectile, projectileStart.position, Quaternion.identity) as GameObject;
+        Vector3 direction = Camera.main.transform.forward;
+        spawnedProjectile.GetComponent<Rigidbody>().AddForce(direction * projectileSpeed, ForceMode.Impulse);
+    }
+
+    IEnumerator ShootTimer()
+    {
+        yield return new WaitForSeconds(shootTimer);
+
+        canShoot = true;
     }
 }
