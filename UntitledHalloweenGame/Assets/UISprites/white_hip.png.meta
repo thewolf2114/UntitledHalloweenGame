@@ -116,10 +116,10 @@ TextureImporter:
       name: white_hip_0
       rect:
         serializedVersion: 2
-        x: 298
-        y: 2101
-        width: 497
-        height: 504
+        x: 0
+        y: 1694
+        width: 1083
+        height: 1306
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

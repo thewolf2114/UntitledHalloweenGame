@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public Text healthText;
+    string originalText;
     int currCandy;
     int maxCandy = 100;
     int damage = 10;
@@ -13,6 +16,9 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currCandy = maxCandy;
+
+        originalText = healthText.text;
+        healthText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -21,6 +27,7 @@ public class PlayerHealth : MonoBehaviour
         {
             isHit = true;
             currCandy -= damage;
+            healthText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
 
             if (currCandy <= 0)
             {
