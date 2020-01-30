@@ -27,6 +27,7 @@ public class PlayerHealth : MonoBehaviour
                 Debug.LogError("You Are Dead!!!");
             }
 
+            Destroy(collision.gameObject);
             StartCoroutine("HitTimer");
         }
     }

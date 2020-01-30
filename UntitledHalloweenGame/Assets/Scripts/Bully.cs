@@ -72,6 +72,7 @@ public class Bully : MonoBehaviour
                 transform.Rotate(Vector3.right, 90);
             }
 
+            Destroy(collision.gameObject);
             StartCoroutine("HitTimer");
         }
     }
