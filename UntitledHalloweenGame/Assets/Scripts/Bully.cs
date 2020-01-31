@@ -7,12 +7,13 @@ public class Bully : MonoBehaviour
     public Transform projectileStart;
     public GameObject player;
     public GameObject projectile;
+    public GameObject candyPickup;
     public float firingRate = 0.5f;
     public int projectileSpeed = 50;
     public int shootRadius = 50;
     public int health = 100;
     public int projectileDamage = 25;
-    float hitTimeer = 0.5f;
+    float hitTimeer = 0.1f;
     bool isHit = false;
     bool canShoot = true;
     bool dead = false;
@@ -65,11 +66,15 @@ public class Bully : MonoBehaviour
             isHit = true;
             health -= projectileDamage;
 
+            Instantiate(candyPickup, transform.position, Quaternion.identity);
+
             if (health <= 0)
             {
                 dead = true;
 
                 transform.Rotate(Vector3.right, 90);
+                transform.position = new Vector3(transform.position.x, transform.position.y - GetComponent<CapsuleCollider>().height / 2, transform.position.z);
+                GetComponent<Rigidbody>().isKinematic = true;
             }
 
             Destroy(collision.gameObject);

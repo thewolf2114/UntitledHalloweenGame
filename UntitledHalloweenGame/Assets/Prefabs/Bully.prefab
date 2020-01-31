@@ -318,6 +318,8 @@ MonoBehaviour:
   player: {fileID: 0}
   projectile: {fileID: 3414396495268006482, guid: 75ff1db21989a074a8e5f3106af80842,
     type: 3}
+  candyPickup: {fileID: 3048765857872872076, guid: d917d8473f95dcb489ecb490211e2ffd,
+    type: 3}
   firingRate: 0.5
   projectileSpeed: 50
   shootRadius: 25

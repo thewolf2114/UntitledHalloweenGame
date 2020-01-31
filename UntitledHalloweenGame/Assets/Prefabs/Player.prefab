@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6662072205240611385}
   - component: {fileID: 6662072205240611387}
   - component: {fileID: 6662072205240611386}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 6662072206146661388}
   - component: {fileID: 6662072206146661379}
   - component: {fileID: 6662072206146661390}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6662072206286884813}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CameraParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 439946854}
   - component: {fileID: -1962593045152721884}
   - component: {fileID: 439946856}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,6 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2a452f87647714bbaa273652ca140b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthText: {fileID: 0}
 --- !u!136 &439946856
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -336,7 +337,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8764007285337895773}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ProjectileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}

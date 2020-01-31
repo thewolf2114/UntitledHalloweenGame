@@ -7,18 +7,19 @@ public class PlayerHealth : MonoBehaviour
 {
     public Text healthText;
     string originalText;
-    int currCandy;
+    int currCandy = 15;
     int maxCandy = 100;
     int damage = 10;
-    float hitTimer = 0.5f;
+    float hitTimer = 0.1f;
     bool isHit = false;
 
     void Start()
     {
-        currCandy = maxCandy;
-
         originalText = healthText.text;
         healthText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -36,6 +37,17 @@ public class PlayerHealth : MonoBehaviour
 
             Destroy(collision.gameObject);
             StartCoroutine("HitTimer");
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("PickUp"))
+        {
+            int pickUpAmount = other.gameObject.GetComponentInParent<CandyPickup>().PickUpAmount;
+            currCandy = (currCandy + pickUpAmount) >= maxCandy ? maxCandy : currCandy + pickUpAmount;
+            healthText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
+            Destroy(other.transform.root.gameObject);
         }
     }
 
