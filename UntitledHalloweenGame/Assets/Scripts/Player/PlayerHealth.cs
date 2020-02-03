@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public GameObject deadMenu;
     public Text healthText;
     string originalText;
     int currCandy = 15;
@@ -28,11 +29,20 @@ public class PlayerHealth : MonoBehaviour
         {
             isHit = true;
             currCandy -= damage;
+
+            if (currCandy < 0)
+                currCandy = 0;
+
             healthText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
 
             if (currCandy <= 0)
             {
-                Debug.LogError("You Are Dead!!!");
+                GetComponent<PlayerController>().Dead = true;
+                GetComponent<PlayerShoot>().Dead = true;
+
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                deadMenu.SetActive(true);
             }
 
             Destroy(collision.gameObject);

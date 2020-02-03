@@ -22,17 +22,25 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     Vector2 rotation = Vector2.zero;
 
+    public bool Dead
+    { get; set; }
+
     [HideInInspector]
     public bool canMove = true;
 
     void Start()
     {
+        Dead = false;
+        GetComponent<PlayerShoot>().Dead = false;
         characterController = GetComponent<CharacterController>();
         rotation.y = transform.eulerAngles.y;
     }
 
     void Update()
     {
+        if (Dead)
+            return;
+
         if (characterController.isGrounded)
         {
             // We are grounded, so recalculate move direction based on axes

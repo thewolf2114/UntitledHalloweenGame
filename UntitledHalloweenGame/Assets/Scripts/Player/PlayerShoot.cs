@@ -15,9 +15,15 @@ public class PlayerShoot : MonoBehaviour
     public float shootTimer = 0.25f;
     bool canShoot = true;
 
+    public bool Dead
+    { get; set; }
+
     // Update is called once per frame
     void Update()
     {
+        if (Dead)
+            return;
+
         if (Input.GetMouseButtonDown(0) && canShoot)
         {
             canShoot = false;
