@@ -15,8 +15,6 @@ public class House : MonoBehaviour
     void Start()
     {
         candyAmount = Random.Range(1, 5);
-
-        Debug.Log(candyAmount);
     }
 
     void Update()

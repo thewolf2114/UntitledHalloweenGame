@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     public GameObject deadMenu;
+    public GameObject pauseMenu;
     public Text healthText;
     string originalText;
     int currCandy = 15;
@@ -21,6 +22,19 @@ public class PlayerHealth : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private void Update()
+    {
+        if (Input.GetAxis("Cancel") != 0)
+        {
+            GetComponent<PlayerController>().Dead = true;
+            GetComponent<PlayerShoot>().Dead = true;
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            pauseMenu.SetActive(true);
+        }
     }
 
     void OnCollisionEnter(Collision collision)
