@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4537300744277158}
   - component: {fileID: 33257376407342586}
   - component: {fileID: 23593471503957386}
-  - component: {fileID: 3101525631269660879}
   m_Layer: 0
   m_Name: SM_Bld_House_Preset_Garage_01
   m_TagString: Untagged
@@ -80,17 +79,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &3101525631269660879
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1453203562746868}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300000, guid: 20d76c6b3a03e1b4aa0b61bd4bf5b49e, type: 3}
