@@ -18,7 +18,7 @@ public class PlayerAnimController : MonoBehaviour
         float moveForward = Input.GetAxis("Vertical");
         float moveRight = Input.GetAxis("Horizontal");
 
-        if (moveForward > 0 || moveRight > 0)
+        if (moveForward != 0 || moveRight != 0)
         {
             playerAnimator.SetFloat("Speed_f", 1);
         }
