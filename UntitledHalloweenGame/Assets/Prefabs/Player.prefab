@@ -286,6 +286,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6662072206626861998}
     m_Modifications:
+    - target: {fileID: 1073228562529640, guid: c96cb725af321b7449f624f9d3003cc5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1093078912564410, guid: c96cb725af321b7449f624f9d3003cc5, type: 3}
       propertyPath: m_Name
       value: Chr_Western_Cowboy_01
@@ -302,11 +306,19 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1515597942613556, guid: c96cb725af321b7449f624f9d3003cc5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1604798551452946, guid: c96cb725af321b7449f624f9d3003cc5, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1665951116150776, guid: c96cb725af321b7449f624f9d3003cc5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1767770852749244, guid: c96cb725af321b7449f624f9d3003cc5, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
