@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAnimController : MonoBehaviour
 {
     private Animator playerAnimator;
+    private float groundCheckDistance = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -17,14 +18,11 @@ public class PlayerAnimController : MonoBehaviour
     {
         float moveForward = Input.GetAxis("Vertical");
         float moveRight = Input.GetAxis("Horizontal");
+        float moveVal = Mathf.Abs(moveForward) + Mathf.Abs(moveRight);
+        bool jumping = Input.GetKey(KeyCode.Space);
 
-        if (moveForward != 0 || moveRight != 0)
-        {
-            playerAnimator.SetFloat("Speed_f", 1);
-        }
-        else
-        {
-            playerAnimator.SetFloat("Speed_f", 0);
-        }
+        playerAnimator.SetFloat("Speed_f", moveVal);
+        playerAnimator.SetBool("Jump_b", jumping);
+        playerAnimator.SetBool("Grounded", !jumping);
     }
 }
