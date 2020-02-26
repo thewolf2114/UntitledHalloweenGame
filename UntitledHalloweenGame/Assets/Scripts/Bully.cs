@@ -40,6 +40,10 @@ public class Bully : MonoBehaviour
 
     void Shoot()
     {
+        Transform playerLocation = player.transform;
+        playerLocation.position += Vector3.up * (player.gameObject.GetComponent<CharacterController>().height / 2);
+        projectileStart.LookAt(playerLocation);
+
         GameObject spawnedProjectile = Instantiate(projectile, projectileStart.position, Quaternion.identity) as GameObject;
         Vector3 direction = projectileStart.forward;
         spawnedProjectile.GetComponent<Rigidbody>().AddForce(direction * projectileSpeed, ForceMode.Impulse);
@@ -66,14 +70,14 @@ public class Bully : MonoBehaviour
             isHit = true;
             health -= projectileDamage;
 
-            Instantiate(candyPickup, transform.position, Quaternion.identity);
+            Instantiate(candyPickup, transform.position + (Vector3.up * GetComponent<CapsuleCollider>().height), Quaternion.identity);
 
             if (health <= 0)
             {
                 dead = true;
 
                 transform.Rotate(Vector3.right, 90);
-                transform.position = new Vector3(transform.position.x, transform.position.y - GetComponent<CapsuleCollider>().height / 2, transform.position.z);
+                transform.position = new Vector3(transform.position.x, transform.position.y + GetComponent<CapsuleCollider>().height / 2, transform.position.z);
                 GetComponent<Rigidbody>().isKinematic = true;
             }
 

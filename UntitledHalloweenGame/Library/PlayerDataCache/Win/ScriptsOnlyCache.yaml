@@ -1,13 +1,16 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - Bully
     - CameraCollision
+    - CandyPickup
     - DeadMenu
     - PauseMenu
     - PlayerAnimController
     - PlayerController
     - PlayerHealth
     - PlayerShoot
+    - ProjectileDeath
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
@@ -39,6 +42,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 28
       Script: {instanceID: 0}
+    - Class: 29
+      Script: {instanceID: 0}
     - Class: 33
       Script: {instanceID: 0}
     - Class: 43
@@ -46,6 +51,8 @@ ScriptsOnlyBuild:
     - Class: 48
       Script: {instanceID: 0}
     - Class: 54
+      Script: {instanceID: 0}
+    - Class: 64
       Script: {instanceID: 0}
     - Class: 65
       Script: {instanceID: 0}
@@ -72,9 +79,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 9874}
     - Class: 114
+      Script: {instanceID: 10252}
+    - Class: 114
       Script: {instanceID: 10264}
     - Class: 114
       Script: {instanceID: 10266}
+    - Class: 114
+      Script: {instanceID: 10308}
     - Class: 114
       Script: {instanceID: 10636}
     - Class: 114
@@ -88,11 +99,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11122}
     - Class: 114
-      Script: {instanceID: 11460}
+      Script: {instanceID: 11146}
     - Class: 114
-      Script: {instanceID: 11472}
+      Script: {instanceID: 11462}
     - Class: 114
       Script: {instanceID: 11474}
+    - Class: 114
+      Script: {instanceID: 11476}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -101,11 +114,15 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 135
       Script: {instanceID: 0}
+    - Class: 136
+      Script: {instanceID: 0}
     - Class: 137
       Script: {instanceID: 0}
     - Class: 143
       Script: {instanceID: 0}
     - Class: 157
+      Script: {instanceID: 0}
+    - Class: 192
       Script: {instanceID: 0}
     - Class: 213
       Script: {instanceID: 0}
@@ -116,6 +133,8 @@ ScriptsOnlyBuild:
     - Class: 224
       Script: {instanceID: 0}
     - Class: 258
+      Script: {instanceID: 0}
+    - Class: 363
       Script: {instanceID: 0}
   scriptHashData:
   - hash:
@@ -574,6 +593,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools
     className: BeforeAfterTestCommandState
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ProjectileDeath
   - hash:
       serializedVersion: 2
       Hash: 219ec6059796d8951d2adcd8505d0dc2

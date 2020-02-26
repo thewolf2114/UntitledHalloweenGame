@@ -8469,7 +8469,7 @@ GameObject:
   - component: {fileID: 5621676067167798322}
   - component: {fileID: 5621676067167798321}
   - component: {fileID: 5621676067167798320}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
