@@ -37,7 +37,7 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnControllerColliderHit(ControllerColliderHit collision)
     {
         if (!isHit && collision.gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))
         {
