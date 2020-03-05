@@ -12,6 +12,8 @@ public class LevelGenerator : MonoBehaviour
 
     Vector3 currPosition;
     List<GameObject> roadsInGame;
+    LayerMask cornerLayer;
+    LayerMask straightLayer;
 
     const int X_INCREMENT = 60;
     const int Z_INCREMENT = 60;
@@ -26,6 +28,8 @@ public class LevelGenerator : MonoBehaviour
         Debug.Log("Seed: " + seed);
 
         roadsInGame = new List<GameObject>();
+        cornerLayer = LayerMask.NameToLayer("Corner");
+        straightLayer = LayerMask.NameToLayer("Straight");
 
         // place the starting boarder at 0, 0, 0
         currPosition = Vector3.zero;
@@ -52,7 +56,7 @@ public class LevelGenerator : MonoBehaviour
             {
                 int randRoad = Random.Range(0, roads.Count);
 
-                GameObject road = Instantiate(roads[randRoad], currPosition, Quaternion.identity) as GameObject;
+                GameObject road = Instantiate(roads[randRoad], currPosition, roads[randRoad].transform.rotation) as GameObject;
                 roadsInGame.Add(road);
                 currPosition += new Vector3(X_INCREMENT, 0, 0);
             }
@@ -87,19 +91,32 @@ public class LevelGenerator : MonoBehaviour
             for (int j = 0; j < 4; j++)
             {
                 GameObject plot = road.transform.Find(plotNames[j]).gameObject;
+                GameObject house = houses[j];
 
-                houses[j].transform.localPosition = plot.transform.localPosition;
+                house.transform.localPosition = plot.transform.localPosition;
+                Quaternion houseRotation = house.transform.localRotation;
+
+                if (house.layer == cornerLayer)
+                    houseRotation *= Quaternion.Euler(0, (-90 * i), 0); // add -90 degrees per plot space
+                else
+                {
+                    Quaternion rotationAmount = (j > 1) ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
+                    houseRotation *= rotationAmount;
+                }
+                house.transform.localRotation = houseRotation;
             }
+
+            houses.Clear();
         }
     }
 
     private GameObject SpawnHouse(GameObject parent, LayerMask layer)
     {
-        layer = layer >> 14;
+        int houseType = (layer == cornerLayer) ? 0 : 1;
         List<List<GameObject>> houses = new List<List<GameObject>>() { cornerHouses, straightHouses };
-        int randHouse = Random.Range(0, houses[layer].Count);
+        int randHouse = Random.Range(0, houses[houseType].Count);
 
-        GameObject house = Instantiate(houses[layer][randHouse], parent.transform) as GameObject;
+        GameObject house = Instantiate(houses[houseType][randHouse], parent.transform) as GameObject;
         return house;
     }
 }
