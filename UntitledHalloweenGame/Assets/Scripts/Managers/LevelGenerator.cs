@@ -12,8 +12,6 @@ public class LevelGenerator : MonoBehaviour
 
     Vector3 currPosition;
     List<GameObject> roadsInGame;
-    LayerMask cornerLayer;
-    LayerMask straightLayer;
 
     const int X_INCREMENT = 60;
     const int Z_INCREMENT = 60;
@@ -28,8 +26,6 @@ public class LevelGenerator : MonoBehaviour
         Debug.Log("Seed: " + seed);
 
         roadsInGame = new List<GameObject>();
-        cornerLayer = LayerMask.NameToLayer("Corner");
-        straightLayer = LayerMask.NameToLayer("Straight");
 
         // place the starting boarder at 0, 0, 0
         currPosition = Vector3.zero;
@@ -55,10 +51,9 @@ public class LevelGenerator : MonoBehaviour
             for (int j = 0; j < LEVEL_WIDTH; j++)
             {
                 int randRoad = Random.Range(0, roads.Count);
-                GameObject newRoad = roads[randRoad];
-                roadsInGame.Add(newRoad);
 
-                Instantiate(roads[randRoad], currPosition, Quaternion.identity);
+                GameObject road = Instantiate(roads[randRoad], currPosition, Quaternion.identity) as GameObject;
+                roadsInGame.Add(road);
                 currPosition += new Vector3(X_INCREMENT, 0, 0);
             }
             currPosition = new Vector3(X_INCREMENT / 2, 0, currPosition.z + Z_INCREMENT);
@@ -67,27 +62,44 @@ public class LevelGenerator : MonoBehaviour
 
     private void BuildHouses()
     {
+        List<string> plotNames = new List<string>();
+        for (int i = 1; i <= 4; i++)
+        {
+            string plotName = "HousePlot_0" + i;
+            plotNames.Add(plotName);
+        }
+
         for (int i = 0; i < roadsInGame.Count; i++)
         {
             if (roadsInGame[i].layer == LayerMask.NameToLayer("DeadEnd"))
                 continue;
 
-            for (int j = 1; j <= 4; j++)
-            {
-                string plotName = "HousePlot_0" + j;
-                GameObject plot = roadsInGame[i].transform.Find(plotName).gameObject;
+            List<GameObject> houses = new List<GameObject>();
+            GameObject road = roadsInGame[i];
 
-                SpawnHouse(plot.transform.position, plot.layer);
+            for (int j = 0; j < 4; j++)
+            {
+                GameObject plot = road.transform.Find(plotNames[j]).gameObject;
+
+                houses.Add(SpawnHouse(road, plot.layer));
+            }
+
+            for (int j = 0; j < 4; j++)
+            {
+                GameObject plot = road.transform.Find(plotNames[j]).gameObject;
+
+                houses[j].transform.localPosition = plot.transform.localPosition;
             }
         }
     }
 
-    private void SpawnHouse(Vector3 location, LayerMask layer)
+    private GameObject SpawnHouse(GameObject parent, LayerMask layer)
     {
         layer = layer >> 14;
         List<List<GameObject>> houses = new List<List<GameObject>>() { cornerHouses, straightHouses };
         int randHouse = Random.Range(0, houses[layer].Count);
 
-        GameObject house = Instantiate(houses[layer][randHouse], location, Quaternion.identity) as GameObject;
+        GameObject house = Instantiate(houses[layer][randHouse], parent.transform) as GameObject;
+        return house;
     }
 }
