@@ -73,7 +73,7 @@ MonoBehaviour:
   m_MinSize: {x: 436, y: 272}
   m_MaxSize: {x: 14006, y: 10022}
   vertical: 0
-  controlID: 56
+  controlID: 55
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 444}
   m_MaxSize: {x: 22012, y: 14044}
   vertical: 0
-  controlID: 111
+  controlID: 110
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_MinSize: {x: 436, y: 394}
   m_MaxSize: {x: 14006, y: 14044}
   vertical: 1
-  controlID: 55
+  controlID: 54
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -268,7 +268,7 @@ MonoBehaviour:
   m_MinSize: {x: 204, y: 444}
   m_MaxSize: {x: 4004, y: 8044}
   vertical: 1
-  controlID: 112
+  controlID: 111
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -472,7 +472,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/StreetModels/Roads
+    - Assets/Prefabs/StreetModels/Houses/Corner
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
@@ -509,24 +509,24 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 915.4995}
+    scrollPos: {x: 0, y: 856}
     m_SelectedIDs: 
     m_LastClickedID: 0
     m_ExpandedIDs: ffffffff0000000086330000fa330000023400000c340000c03400003e36000094360000f837000024380000e83800006e3900007e3a00003c3b00009c3b00003c3d00009a3d00009a4000005e41000086410000a44100001a4200004643000088430000e8430000cc440000e4440000b84500002c4600004c460000ae4600008a490000a64900004e4a0000084c00000c4c00002a4c00006c4e00006e4e0000764e0000a04e0000fe4e00000e4f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: TeeSection
-      m_OriginalName: TeeSection
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 17100
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 9}
     m_SearchString: 
@@ -597,23 +597,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 7018e2ff5c6be3ffea11e6ff0473e7ff18b9e9ff14f8efffb0c7f3ff9621f5ff5074f6ffd0c8f7ff9018f9ff9ec8fcff1c15feff76fbffff
+      m_SelectedIDs: d2defaff
+      m_LastClickedID: -336174
+      m_ExpandedIDs: 8286faffca87faffd2defaffaa3cfcffc03cfcffca3cfcffe83dfcff0c45fcff5446fcffe052fcffea52fcffea53fcfff056fcffa857fcffe658fcff0c59fcff1659fcff4659fcff5659fcff6059fcffa859fcffb259fcff745afcff6465fcff6e65fcff7e65fcff8e65fcff9e65fcffae65fcff0066fcff1266fcff2466fcff4c67fcff2468fcff4868fcff7a68fcff9068fcff9a68fcffb868fcfff668fcff0069fcff9869fcffa269fcffb069fcff926afcff906bfcff9a6bfcffd26bfcffb47efcff22cbfcff26ccfcffc0dcfcff94e0fcff9ee0fcffc8e0fcffd2e0fcffece0fcff96e8fcffbaecfcff9803fdff7805fdffe605fdfffc05fdffde09fdffaa0bfdff9e2bfdff1c78fdfff623ffff0024ffffca25ffffd425ffff4e27ffff9c27ffffb227ffffbc27ffffd027ffff2c28ffff3628ffffe24bffff2a4dffff94e6ffff76fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: TeeSection(Clone)
+        m_OriginalName: TeeSection(Clone)
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -6508
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 2}
       m_SearchString: 
@@ -685,9 +685,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 225.52426, y: -92.513565, z: -40.568874}
+    m_Target: {x: -41.544983, y: -168.66002, z: -163.14738}
     speed: 2
-    m_Value: {x: 225.52426, y: -92.513565, z: -40.568874}
+    m_Value: {x: -41.544983, y: -168.66002, z: -163.14738}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -716,20 +716,20 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.05435172, y: -0.92226547, z: 0.35699436, w: -0.14058122}
+    m_Target: {x: -0.07095177, y: 0.9144692, z: -0.35363728, w: -0.1834689}
     speed: 2
-    m_Value: {x: -0.054542173, y: -0.92139006, z: 0.35824564, w: -0.140448}
+    m_Value: {x: -0.073072, y: 0.9133482, z: -0.35320377, w: -0.18895161}
   m_Size:
-    m_Target: 263.96143
+    m_Target: 361.42273
     speed: 2
-    m_Value: 252.59467
+    m_Value: 378.45312
   m_Ortho:
     m_Target: 0
     speed: 2
     m_Value: 0
   m_CameraSettings:
-    m_Speed: 1
-    m_SpeedNormalized: 0.52000046
+    m_Speed: 2
+    m_SpeedNormalized: 1
     m_SpeedMin: 0.01
     m_SpeedMax: 2
     m_EasingEnabled: 1

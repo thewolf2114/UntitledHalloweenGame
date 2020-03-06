@@ -10,7 +10,6 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     GameObject startingBoarder;
 
-    Vector3 currPosition;
     List<GameObject> roadsInGame;
     LayerMask cornerLayer;
     LayerMask straightLayer;
@@ -23,6 +22,7 @@ public class LevelGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Vector3 currPosition;
         int seed = Random.Range(int.MinValue, int.MaxValue);
         Random.InitState(seed);
         Debug.Log("Seed: " + seed);
@@ -33,22 +33,30 @@ public class LevelGenerator : MonoBehaviour
 
         // place the starting boarder at 0, 0, 0
         currPosition = Vector3.zero;
-        PlaceStartingBoarder();
+        PlaceStartingBoarder(ref currPosition);
 
-        // move the current position to prepare for road generation.
-        currPosition += new Vector3(X_INCREMENT / 2, 0, Z_INCREMENT / 2);
-        BuildRoads();
+        // road generation.
+        BuildRoads(ref currPosition);
 
-        currPosition = Vector3.zero;
+        // house generation
         BuildHouses();
     }
 
-    private void PlaceStartingBoarder()
+    /// <summary>
+    /// Places the Starting boarder and updates the the curretn position
+    /// </summary>
+    /// <param name="currPosition">a reference to the current spot</param>
+    private void PlaceStartingBoarder(ref Vector3 currPosition)
     {
         Instantiate(startingBoarder, currPosition, Quaternion.identity);
+        currPosition += new Vector3(X_INCREMENT / 2, 0, Z_INCREMENT / 2);
     }
 
-    private void BuildRoads()
+    /// <summary>
+    /// Randomly generates the road system for the level
+    /// </summary>
+    /// <param name="currPosition">a reference to the current spot</param>
+    private void BuildRoads(ref Vector3 currPosition)
     {
         for (int i = 0; i < LEVEL_HEIGHT; i++)
         {
@@ -62,6 +70,8 @@ public class LevelGenerator : MonoBehaviour
             }
             currPosition = new Vector3(X_INCREMENT / 2, 0, currPosition.z + Z_INCREMENT);
         }
+
+        currPosition = Vector3.zero;
     }
 
     private void BuildHouses()
@@ -83,21 +93,26 @@ public class LevelGenerator : MonoBehaviour
 
             for (int j = 0; j < 4; j++)
             {
+                // get the current plot for layer checking
                 GameObject plot = road.transform.Find(plotNames[j]).gameObject;
 
+                // spawn a house and add it to the houses list
                 houses.Add(SpawnHouse(road, plot.layer));
             }
 
             for (int j = 0; j < 4; j++)
             {
+                // get the current plot and house
                 GameObject plot = road.transform.Find(plotNames[j]).gameObject;
                 GameObject house = houses[j];
 
+                // change the current houses position to the plots position. includes rotation
                 house.transform.localPosition = plot.transform.localPosition;
                 Quaternion houseRotation = house.transform.localRotation;
 
-                if (house.layer == cornerLayer)
-                    houseRotation *= Quaternion.Euler(0, (-90 * i), 0); // add -90 degrees per plot space
+                // determine rotation calculation depending on house type
+                if (house.layer == cornerLayer) 
+                    houseRotation *= Quaternion.Euler(0, (-90 * j), 0); // add -90 degrees per plot space
                 else
                 {
                     Quaternion rotationAmount = (j > 1) ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
@@ -106,6 +121,7 @@ public class LevelGenerator : MonoBehaviour
                 house.transform.localRotation = houseRotation;
             }
 
+            // clear the house list for the next road segment
             houses.Clear();
         }
     }
