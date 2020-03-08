@@ -48,7 +48,6 @@ MonoBehaviour:
   - {fileID: 6256775862357024713, guid: aba061025464050439683b7747b3bbdc, type: 3}
   - {fileID: 4660118964213522690, guid: 903a231cb5c0a8e44a85ad0b9f7232f7, type: 3}
   - {fileID: 1322798338497848471, guid: d536e6c84f7f1164bb63acaaffe70cce, type: 3}
-  - {fileID: 6033588210315445362, guid: 86c0a02586c77864da528cc3e3c81751, type: 3}
   cornerHouses:
   - {fileID: 3185568630694149328, guid: 782d955942dc5c8439da557fada39f5c, type: 3}
   - {fileID: 2520944610601004745, guid: 8279a9e970f64474a9e333c3d5c27454, type: 3}
@@ -64,4 +63,6 @@ MonoBehaviour:
   - {fileID: 553578318782838910, guid: a3ca4afc0f11fa9438c37609349eb869, type: 3}
   - {fileID: 4409930320179429450, guid: 436e1ae88143ed34abcfc62331c6247d, type: 3}
   startingBoarder: {fileID: 2241411261197640480, guid: 49ef16e120ccab7458cea2723012c168,
+    type: 3}
+  emptySection: {fileID: 6033588210315445362, guid: 86c0a02586c77864da528cc3e3c81751,
     type: 3}
