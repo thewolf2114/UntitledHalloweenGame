@@ -58,8 +58,41 @@ public class LevelGenerator : MonoBehaviour
     /// <param name="currPosition">a reference to the current spot</param>
     private void BuildRoads(ref Vector3 currPosition)
     {
-        GameObject deadEnd = Instantiate(roads[1], currPosition, roads[1].transform.rotation) as GameObject;
-        deadEnd.transform.rotation *= Quaternion.Euler(0, 90, 0);
+        GameObject deadEnd = Instantiate(roads[1], LocalToGlobal(currPosition), roads[1].transform.rotation) as GameObject;
+        int randomRotation = Random.Range(0, 2);
+        deadEnd.transform.rotation *= (randomRotation == 0) ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, 180, 0);
+
+        Queue<GameObject> connectionPoints = new Queue<GameObject>(deadEnd.GetComponent<RoadConnections>().Connections);
+        List<List<GameObject>> roadGrid = new List<List<GameObject>>();
+        for (int i = 0; i <= LEVEL_WIDTH; i++)
+        {
+            List<GameObject> emptyList = new List<GameObject>();
+            for (int j = 0; j <= LEVEL_HEIGHT; j++)
+            {
+                emptyList.Add(new GameObject());
+            }
+            roadGrid.Add(emptyList);
+        }
+        Destroy(roadGrid[0][0]);
+        roadGrid[0][0] = deadEnd;
+
+        while (connectionPoints.Count > 0)
+        {
+            GameObject point = connectionPoints.Dequeue();
+            currPosition = FindGridPointFromConnection(point);
+            List<GameObject> possibleRoads = SpawnableRoads(currPosition, roadGrid);
+
+            int roadIndex = Random.Range(0, possibleRoads.Count - 1);
+            GameObject road = Instantiate(possibleRoads[roadIndex], LocalToGlobal(currPosition), possibleRoads[roadIndex].transform.rotation) as GameObject;
+            
+            foreach (GameObject connection in road.GetComponent<RoadConnections>().Connections)
+            {
+                connectionPoints.Enqueue(connection);
+            }
+
+            Destroy(roadGrid[(int)currPosition.x][(int)currPosition.z]);
+            roadGrid[(int)currPosition.x][(int)currPosition.z] = road;
+        }
 
         //for (int i = 0; i < LEVEL_HEIGHT; i++)
         //{
@@ -137,12 +170,66 @@ public class LevelGenerator : MonoBehaviour
     /// Developes a list of possible road segments that can be placed at the current position
     /// </summary>
     /// <param name="currPosition">The position used to spawn the next road</param>
+    /// <param name="roadGrid">The road grid as it currently stands</param>
     /// <returns>A list of possible road segments</returns>
-    private List<GameObject> SpawnableRoads(Vector3 currPosition)
+    private List<GameObject> SpawnableRoads(Vector3 currPosition, List<List<GameObject>> roadGrid)
     {
-        List<GameObject> spawnableRoads = new List<GameObject>();
+        List<GameObject> spawnableRoads = new List<GameObject>(roads);
+
+        if ((currPosition.x == 0 || currPosition.x == LEVEL_WIDTH) && (currPosition.z == 0 || currPosition.z == LEVEL_HEIGHT))
+        {
+            spawnableRoads.Remove(roads[(int)Roads.CROSS]);
+            spawnableRoads.Remove(roads[(int)Roads.STRAIGHT]);
+            spawnableRoads.Remove(roads[(int)Roads.TEE]);
+        }
+        else if ((currPosition.x == 0 || currPosition.x == LEVEL_WIDTH) || (currPosition.z == 0 || currPosition.z == LEVEL_HEIGHT))
+        {
+            spawnableRoads.Remove(roads[(int)Roads.CROSS]);
+        }
+
+
 
         return spawnableRoads;
+    }
+
+    /// <summary>
+    /// Finds the point on the road grid that corresponds with that connection point
+    /// </summary>
+    /// <param name="connectionPoint">the connnection point to find connecting grid</param>
+    /// <returns>The grid point that connects to connectionPoint</returns>
+    private Vector3 FindGridPointFromConnection(GameObject connectionPoint)
+    {
+        Vector3 gridPoint = GlobalToLocal(connectionPoint.transform.position);
+        gridPoint.x += gridPoint.x;
+        gridPoint.z += gridPoint.z;
+
+        return gridPoint;
+    }
+
+    private void RotateRoad(GameObject connectionPoint, GameObject road)
+    {
+        bool connected = isConnected(connectionPoint, road);
+
+        while (!connected)
+        {
+            road.transform.rotation *= Quaternion.Euler(0, 90, 0);
+            connected = isConnected(connectionPoint, road);
+        }
+    }
+
+    private bool isConnected(GameObject connectionPoint, GameObject road)
+    {
+        bool connected = false;
+
+        foreach (GameObject connection in road.GetComponent<RoadConnections>().Connections)
+        {
+            if ((connection.transform.position - connectionPoint.transform.position).magnitude < 0.1f)
+            {
+                connected = true;
+            }
+        }
+
+        return connected;
     }
 
     /// <summary>
@@ -150,7 +237,7 @@ public class LevelGenerator : MonoBehaviour
     /// </summary>
     /// <param name="parent">the object parent</param>
     /// <param name="layer">layer used to determine house type</param>
-    /// <returns></returns>
+    /// <returns>Returns the house object that was spawned</returns>
     private GameObject SpawnHouse(GameObject parent, LayerMask layer)
     {
         int houseType = (layer == cornerLayer) ? 0 : 1;
