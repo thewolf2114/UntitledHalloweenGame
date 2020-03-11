@@ -278,25 +278,29 @@ public class LevelGenerator : MonoBehaviour
         point.transform.parent.gameObject.GetComponent<RoadConnections>().Connections.Remove(point);
         Destroy(point);
 
-        foreach (GameObject connectionPoint in road.GetComponent<RoadConnections>().Connections)
+        List<GameObject> removedPoints = new List<GameObject>();
+        List<GameObject> connections = road.GetComponent<RoadConnections>().Connections;
+
+        // add all the connection points that need to be removed to a list
+        foreach (GameObject connectionPoint in connections)
         {
             // if the connection point is on the right or left edge, destroy it
-            if (currPosition.x == 0 && connectionPoint.transform.localPosition == Vector3.left * 30)
+            if (currPosition.x == 0 && (connectionPoint.transform.localPosition - Vector3.left * 30).magnitude < 0.1f)
             {
-                connectionPoint.transform.parent.gameObject.GetComponent<RoadConnections>().Connections.Remove(connectionPoint);
+                removedPoints.Add(connectionPoint);
             }
-            else if (currPosition.x == LEVEL_WIDTH && connectionPoint.transform.localPosition == Vector3.right * 30)
+            else if (currPosition.x == LEVEL_WIDTH && (connectionPoint.transform.localPosition - Vector3.right * 30).magnitude < 0.1f)
             {
-                connectionPoint.transform.parent.gameObject.GetComponent<RoadConnections>().Connections.Remove(connectionPoint);
+                removedPoints.Add(connectionPoint);
             }
             // if the connection point is on the top or bottom egde, destroy it
-            else if (currPosition.z == 0 && connectionPoint.transform.localPosition == Vector3.back * 30)
+            else if (currPosition.z == 0 && (connectionPoint.transform.localPosition - Vector3.back * 30).magnitude < 0.1f)
             {
-                connectionPoint.transform.parent.gameObject.GetComponent<RoadConnections>().Connections.Remove(connectionPoint);
+                removedPoints.Add(connectionPoint);
             }
-            else if (currPosition.z == LEVEL_HEIGHT && connectionPoint.transform.localPosition == Vector3.forward * 30)
+            else if (currPosition.z == LEVEL_HEIGHT && (connectionPoint.transform.localPosition - Vector3.forward * 30).magnitude < 0.1f)
             {
-                connectionPoint.transform.parent.gameObject.GetComponent<RoadConnections>().Connections.Remove(connectionPoint);
+                removedPoints.Add(connectionPoint);
             }
 
             if (connectionPoint != null)
@@ -304,12 +308,19 @@ public class LevelGenerator : MonoBehaviour
                 Vector3 worldPosition = connectionPoint.transform.position;
                 RaycastHit hit;
                 LayerMask connectionLayer = 1 << 16;
-                if (Physics.SphereCast(worldPosition, 1, Vector3.forward, out hit, 1.0f, connectionLayer))
+                if (Physics.SphereCast(worldPosition, 10, Vector3.forward, out hit, 10.0f, connectionLayer))
                 {
-                    hit.collider.transform.parent.gameObject.GetComponent<RoadConnections>().Connections.Remove(hit.collider.gameObject);
-                    connectionPoint.transform.parent.gameObject.GetComponent<RoadConnections>().Connections.Remove(connectionPoint);
+                    removedPoints.Add(hit.collider.gameObject);
+                    removedPoints.Add(connectionPoint);
                 }
             }
+        }
+
+        // remove the connection points
+        foreach (GameObject obj in removedPoints)
+        {
+            if (connections.Contains(obj))
+                connections.Remove(obj);
         }
     }
 
