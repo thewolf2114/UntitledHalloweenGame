@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
-    GameObject levelGenerator;
+    GameObject levelGenerator, player;
 
     public static GameObject Instance { get; private set; }
 
@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
 
         if (levelGenerator)
             Instantiate(levelGenerator);
+        if (player)
+            Instantiate(player, new Vector3(30, 0, 30), player.transform.rotation);
     }
 
     // Start is called before the first frame update

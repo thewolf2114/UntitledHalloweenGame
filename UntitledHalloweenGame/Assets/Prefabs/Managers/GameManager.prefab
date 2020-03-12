@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelGenerator: {fileID: 6074808622642961087, guid: a9f11333fdb4e9f48a5e23eabe2cd875,
     type: 3}
+  player: {fileID: 1436789549329676564, guid: f5997b801ccc1dc4d8b2dd7e79f6495f, type: 3}
