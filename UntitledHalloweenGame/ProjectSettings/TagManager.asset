@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Connections
+  - GameOver
+  - Pause
   layers:
   - Default
   - TransparentFX

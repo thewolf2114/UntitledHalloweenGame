@@ -6,7 +6,7 @@ public class PauseMenu : MonoBehaviour
 {
     public void OnResumeButtonClick()
     {
-        GameObject player = GameObject.Find("Player");
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<PlayerController>().Dead = false;
         player.GetComponent<PlayerShoot>().Dead = false;
 

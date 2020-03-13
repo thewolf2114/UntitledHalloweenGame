@@ -17,8 +17,8 @@ public class LevelGenerator : MonoBehaviour
 
     const int X_INCREMENT = 60;
     const int Z_INCREMENT = 60;
-    const int LEVEL_WIDTH = 4;  // range from 0 to 4
-    const int LEVEL_HEIGHT = 4; // range from 0 to 4
+    const int LEVEL_WIDTH = 9;  // range from 0 to 4
+    const int LEVEL_HEIGHT = 9; // range from 0 to 4
 
     // Start is called before the first frame update
     void Start()
@@ -82,13 +82,13 @@ public class LevelGenerator : MonoBehaviour
         roadsInGame.Add(deadEnd);
 
         GameObject point;
-        List<GameObject> possibleRoads = new List<GameObject>(roads);
-        possibleRoads.RemoveAt(1);
+        List<GameObject> possibleRoads;
         int roadIndex;
         GameObject road;
+        int looped = 300;
 
         // while there are still available connection points
-        while (connectionPoints.Count > 0)
+        while (connectionPoints.Count > 0 && looped > 0)
         {
             // pop of the top connection point from the queue and adjust our current position
             point = connectionPoints.Dequeue();
@@ -97,14 +97,24 @@ public class LevelGenerator : MonoBehaviour
             // move to the cell that would connect to connection point
             FindGridPointFromConnection(point, ref currPosition);
 
+            // initialize possible roads that can be placed at the current position
+            possibleRoads = SpawnableRoads(currPosition, roadGrid);
+
             // randomize the available road segments
-            roadIndex = Random.Range(0, possibleRoads.Count);
-            road = Instantiate(possibleRoads[roadIndex], LocalToGlobal(currPosition), possibleRoads[roadIndex].transform.rotation) as GameObject;
-            possibleRoads.RemoveAt(roadIndex);
+            if (possibleRoads.Count > 0)
+            {
+                roadIndex = Random.Range(0, possibleRoads.Count);
+                road = Instantiate(possibleRoads[roadIndex], LocalToGlobal(currPosition), possibleRoads[roadIndex].transform.rotation) as GameObject;
+                possibleRoads.RemoveAt(roadIndex);
+            }
+            else
+            {
+                road = Instantiate(emptySection, LocalToGlobal(currPosition), emptySection.transform.rotation);
+            }
 
             RotateRoad(point, ref road);
 
-            RemoveConnectionPoints(ref point, ref road, currPosition);
+            RemoveConnectionPoints(ref point, ref road, currPosition, ref connectionPoints);
 
             foreach (GameObject connection in road.GetComponent<RoadConnections>().Connections)
             {
@@ -118,8 +128,20 @@ public class LevelGenerator : MonoBehaviour
 
             roadsInGame.Add(road);
 
-            if (possibleRoads.Count == 0)
-                possibleRoads = new List<GameObject>(roads);
+            //if (connectionPoints.Count == 0)
+            //{
+            //    int numberOfRoadsInScene = roadsInGame.Count;
+            //    int numberOfPossibleRoads = roadGrid.Count * roadGrid[0].Count;
+
+            //    float roadRatio = numberOfRoadsInScene / numberOfPossibleRoads;
+
+            //    if (roadRatio < 0.8f)
+            //    {
+            //        GameObject straightSec = roadsInGame.Find(x => x.name.Contains(roads[(int)Roads.STRAIGHT].name));
+            //    }
+            //}
+
+            looped--;
         }
 
         for (int i = 0; i < roadGrid.Count; i++)
@@ -206,9 +228,14 @@ public class LevelGenerator : MonoBehaviour
     {
         List<GameObject> spawnableRoads = new List<GameObject>(roads);
         Vector3 right = currPosition + Vector3.right;
-        Vector3 left = currPosition + Vector3.left;
+        Vector3 left = currPosition.x > 0 ? currPosition + Vector3.left : Vector3.one;
         Vector3 up = currPosition + Vector3.forward;
-        Vector3 down = currPosition + Vector3.down;
+        Vector3 back = currPosition.z > 0 ? currPosition + Vector3.back : Vector3.one;
+
+        //GameObject rightRoad = roadGrid[(int)right.z][(int)right.x];
+        //GameObject leftRoad = roadGrid[(int)left.z][(int)left.x];
+        //GameObject upRoad = roadGrid[(int)up.z][(int)up.x];
+        //GameObject downRoad = roadGrid[(int)back.z][(int)back.x];
 
         if ((currPosition.x < 1 || currPosition.x >= LEVEL_WIDTH) && (currPosition.z < 1 || currPosition.z >= LEVEL_HEIGHT))
         {
@@ -221,10 +248,8 @@ public class LevelGenerator : MonoBehaviour
             spawnableRoads.Remove(roads[(int)Roads.CROSS]);
             spawnableRoads.Remove(roads[(int)Roads.DEAD_END]);
         }
-        else
-        {
-            spawnableRoads.Remove(roads[(int)Roads.DEAD_END]);
-        }
+
+
 
         return spawnableRoads;
     }
@@ -251,16 +276,16 @@ public class LevelGenerator : MonoBehaviour
     private void RotateRoad(GameObject connectionPoint, ref GameObject road)
     {
         bool connected = isConnected(connectionPoint, road);
+        bool noEnds = NoAbruptEnds(road);
+        int maxLoop = 5;
 
-        while (!connected)
+        while ((!connected || !noEnds) && maxLoop > 0)
         {
             road.transform.rotation *= Quaternion.Euler(0, 90, 0);
             connected = isConnected(connectionPoint, road);
+            noEnds = NoAbruptEnds(road);
+            maxLoop--;
         }
-        //if (!connected)
-        //{
-        //    road.transform.rotation *= Quaternion.Euler(0, 90, 0);
-        //}
     }
 
     /// <summary>
@@ -285,6 +310,27 @@ public class LevelGenerator : MonoBehaviour
         return connected;
     }
 
+    private bool NoAbruptEnds(GameObject road)
+    {
+        bool noEnds = true;
+        float tolerence = 0.1f;
+
+        Vector3 roadPosition = GlobalToLocal(road.transform.position);
+
+        foreach(GameObject connection in road.GetComponent<RoadConnections>().Connections)
+        {
+            if ((connection.transform.position.x - 0) < tolerence && (roadPosition.x - 0) < tolerence ||
+                (connection.transform.position.x - (LEVEL_WIDTH * 60) + 60) < tolerence && roadPosition.x == LEVEL_WIDTH ||
+                (connection.transform.position.z - 0) < tolerence && (roadPosition.z - 0) < tolerence ||
+                (connection.transform.position.z - (LEVEL_HEIGHT * 60) + 60) < tolerence && roadPosition.z == LEVEL_HEIGHT)
+            {
+                noEnds = false;
+            }
+        }
+
+        return noEnds;
+    }
+
     /// <summary>
     /// Removes the connection points that are no longer useful,
     /// like connections on an edge
@@ -292,7 +338,7 @@ public class LevelGenerator : MonoBehaviour
     /// <param name="point">the current point used to spawn the road</param>
     /// <param name="road">the road that was spawned</param>
     /// <param name="currPosition">the current tile position</param>
-    private void RemoveConnectionPoints(ref GameObject point, ref GameObject road, Vector3 currPosition)
+    private void RemoveConnectionPoints(ref GameObject point, ref GameObject road, Vector3 currPosition, ref Queue<GameObject> connectionQueue)
     {
         List<GameObject> removedPoints = new List<GameObject>();
         List<GameObject> connections = road.GetComponent<RoadConnections>().Connections;
@@ -331,7 +377,7 @@ public class LevelGenerator : MonoBehaviour
                 continue;
             }
 
-            List<GameObject> activeConnections = new List<GameObject>();
+            // if there is a connection with any other road
             for (int i = 0; i < roadsInGame.Count; i++)
             {
                 foreach(GameObject connection in roadsInGame[i].GetComponent<RoadConnections>().Connections)
@@ -340,6 +386,15 @@ public class LevelGenerator : MonoBehaviour
                     {
                         removedPoints.Add(connection);
                         removedPoints.Add(connectionPoint);
+
+                        List<GameObject> connectionNonQueue = new List<GameObject>(connectionQueue.ToArray());
+                        if (connectionNonQueue.Contains(connection))
+                        {
+                            connectionNonQueue.Remove(connection);
+                            connectionQueue.Clear();
+
+                            connectionQueue = new Queue<GameObject>(connectionNonQueue.ToArray());
+                        }
                     }
                 }
             }

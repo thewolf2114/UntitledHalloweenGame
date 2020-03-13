@@ -9,6 +9,6 @@ public class DeadMenu : MonoBehaviour
     {
         gameObject.SetActive(false);
 
-        SceneManager.LoadScene("PlayerTestScene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

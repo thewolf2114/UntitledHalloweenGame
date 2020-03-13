@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1436789549329676565}
   m_Layer: 0
   m_Name: Player2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,9 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2a452f87647714bbaa273652ca140b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadMenu: {fileID: 0}
-  pauseMenu: {fileID: 0}
-  healthText: {fileID: 0}
 --- !u!114 &1436789549329676566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +180,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileStart: {fileID: 5621676067000327464}
-  reticle: {fileID: 0}
   projectile: {fileID: 5680191769891310112, guid: ed5be8140ebfb0a459c354ed11b337d5,
     type: 3}
   distance: 5
@@ -8514,7 +8510,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 1650
   field of view: 60
   orthographic: 0
   orthographic size: 5
