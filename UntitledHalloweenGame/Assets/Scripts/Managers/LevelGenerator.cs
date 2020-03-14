@@ -85,7 +85,7 @@ public class LevelGenerator : MonoBehaviour
         List<GameObject> possibleRoads;
         int roadIndex;
         GameObject road;
-        int looped = 300;
+        int looped = 500;
 
         // while there are still available connection points
         while (connectionPoints.Count > 0 && looped > 0)

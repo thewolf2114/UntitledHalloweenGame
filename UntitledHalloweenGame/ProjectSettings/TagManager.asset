@@ -7,6 +7,8 @@ TagManager:
   - Connections
   - GameOver
   - Pause
+  - ChildHouse
+  - Candy
   layers:
   - Default
   - TransparentFX
