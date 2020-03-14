@@ -71,7 +71,7 @@ public class LevelGenerator : MonoBehaviour
             List<GameObject> emptyList = new List<GameObject>();
             for (int j = 0; j <= LEVEL_HEIGHT; j++)
             {
-                emptyList.Add(new GameObject());
+                emptyList.Add(null);
             }
             roadGrid.Add(emptyList);
         }
@@ -130,8 +130,8 @@ public class LevelGenerator : MonoBehaviour
 
             //if (connectionPoints.Count == 0)
             //{
-            //    int numberOfRoadsInScene = roadsInGame.Count;
-            //    int numberOfPossibleRoads = roadGrid.Count * roadGrid[0].Count;
+            //    float numberOfRoadsInScene = roadsInGame.Count;
+            //    float numberOfPossibleRoads = roadGrid.Count * roadGrid[0].Count;
 
             //    float roadRatio = numberOfRoadsInScene / numberOfPossibleRoads;
 
@@ -142,7 +142,31 @@ public class LevelGenerator : MonoBehaviour
             //            Destroy(roadsInGame[i]);
             //        }
             //        roadsInGame.Clear();
-            //        BuildRoads(ref currPosition);
+            //        roadGrid.Clear();
+
+            //        currPosition = Vector3.zero;
+
+            //        // initializing the starting dead end position and setting its random rotation
+            //        deadEnd = Instantiate(roads[1], LocalToGlobal(currPosition), roads[1].transform.rotation) as GameObject;
+            //        randomRotation = Random.Range(0, 2);
+            //        deadEnd.transform.rotation *= (randomRotation == 0) ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, 180, 0);
+
+            //        // getting all the connection points that are on the starting section and initialize the road grid
+            //        connectionPoints.Enqueue(deadEnd.GetComponent<RoadConnections>().Connections[0]);
+            //        for (int i = 0; i <= LEVEL_WIDTH; i++)
+            //        {
+            //            List<GameObject> emptyList = new List<GameObject>();
+            //            for (int j = 0; j <= LEVEL_HEIGHT; j++)
+            //            {
+            //                emptyList.Add(null);
+            //            }
+            //            roadGrid.Add(emptyList);
+            //        }
+            //        temp = roadGrid[0][0];
+            //        roadGrid[0].Remove(temp);
+            //        Destroy(temp);
+            //        roadGrid[0].Insert(0, deadEnd);
+            //        roadsInGame.Add(deadEnd);
             //    }
             //}
 
@@ -153,7 +177,7 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int j = 0; j < roadGrid[0].Count; j++)
             {
-                if (roadGrid[i][j].name == "New Game Object")
+                if (roadGrid[i][j] == null)
                 {
                     currPosition = new Vector3(j, 0, i);
                     GameObject blank = Instantiate(emptySection, LocalToGlobal(currPosition), emptySection.transform.rotation) as GameObject;
