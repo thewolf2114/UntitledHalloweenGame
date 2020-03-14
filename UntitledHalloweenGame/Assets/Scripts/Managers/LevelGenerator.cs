@@ -17,8 +17,8 @@ public class LevelGenerator : MonoBehaviour
 
     const int X_INCREMENT = 60;
     const int Z_INCREMENT = 60;
-    const int LEVEL_WIDTH = 9;  // range from 0 to 4
-    const int LEVEL_HEIGHT = 9; // range from 0 to 4
+    const int LEVEL_WIDTH = 4;  // range from 0 to 4
+    const int LEVEL_HEIGHT = 4; // range from 0 to 4
 
     // Start is called before the first frame update
     void Start()
@@ -135,9 +135,14 @@ public class LevelGenerator : MonoBehaviour
 
             //    float roadRatio = numberOfRoadsInScene / numberOfPossibleRoads;
 
-            //    if (roadRatio < 0.8f)
+            //    if (roadRatio < 0.9f)
             //    {
-            //        GameObject straightSec = roadsInGame.Find(x => x.name.Contains(roads[(int)Roads.STRAIGHT].name));
+            //        for (int i = 0; i < roadsInGame.Count; i++)
+            //        {
+            //            Destroy(roadsInGame[i]);
+            //        }
+            //        roadsInGame.Clear();
+            //        BuildRoads(ref currPosition);
             //    }
             //}
 

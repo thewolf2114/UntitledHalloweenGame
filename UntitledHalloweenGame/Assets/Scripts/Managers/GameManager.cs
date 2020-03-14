@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     public static GameObject Instance { get; private set; }
 
-    float fogTimer = 30;
+    float fogTimer = 15;
     float densityIncrease = 0.0001f;
     float currDensity = 0.0f;
     float finalDensity = 0.015f;

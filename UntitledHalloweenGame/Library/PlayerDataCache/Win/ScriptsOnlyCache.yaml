@@ -2,8 +2,10 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - CameraCollision
+    - ChildHouseFlag
     - DeadMenu
     - GameManager
+    - House
     - LevelGenerator
     - PauseMenu
     - PlayerAnimController
@@ -20,7 +22,6 @@ ScriptsOnlyBuild:
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
-    - UnityEditor.TestTools.TestRunner.TestListCacheData
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
@@ -70,41 +71,45 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 9674}
+      Script: {instanceID: 9794}
     - Class: 114
-      Script: {instanceID: 9832}
+      Script: {instanceID: 9952}
     - Class: 114
-      Script: {instanceID: 9874}
+      Script: {instanceID: 9994}
     - Class: 114
-      Script: {instanceID: 10264}
+      Script: {instanceID: 10384}
     - Class: 114
-      Script: {instanceID: 10266}
+      Script: {instanceID: 10386}
     - Class: 114
-      Script: {instanceID: 10350}
+      Script: {instanceID: 10470}
     - Class: 114
-      Script: {instanceID: 10564}
+      Script: {instanceID: 10520}
     - Class: 114
-      Script: {instanceID: 10640}
+      Script: {instanceID: 10614}
     - Class: 114
       Script: {instanceID: 10686}
     - Class: 114
-      Script: {instanceID: 10698}
+      Script: {instanceID: 10762}
     - Class: 114
-      Script: {instanceID: 10984}
+      Script: {instanceID: 10808}
     - Class: 114
-      Script: {instanceID: 11076}
+      Script: {instanceID: 10820}
     - Class: 114
-      Script: {instanceID: 11116}
+      Script: {instanceID: 11106}
     - Class: 114
-      Script: {instanceID: 11128}
+      Script: {instanceID: 11198}
     - Class: 114
-      Script: {instanceID: 11152}
+      Script: {instanceID: 11238}
     - Class: 114
-      Script: {instanceID: 11468}
+      Script: {instanceID: 11250}
     - Class: 114
-      Script: {instanceID: 11480}
+      Script: {instanceID: 11274}
     - Class: 114
-      Script: {instanceID: 11482}
+      Script: {instanceID: 11590}
+    - Class: 114
+      Script: {instanceID: 11602}
+    - Class: 114
+      Script: {instanceID: 11604}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -384,7 +389,7 @@ ScriptsOnlyBuild:
     className: ThirdPersonCharacter
   - hash:
       serializedVersion: 2
-      Hash: 7b188605c1526f214444153c73381a63
+      Hash: 88d8b4139f4b6852162bba52b69dec89
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: House
@@ -436,6 +441,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: UnityStandardAssets.Characters.ThirdPerson
     className: ThirdPersonUserControl
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ChildHouseFlag
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
