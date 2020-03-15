@@ -8,7 +8,6 @@ using UnityEngine;
 public class PlayerShoot : MonoBehaviour
 {
     public Transform projectileStart;
-    public Transform reticle;
     public GameObject projectile;
     public int distance = 5;
     public int projectileSpeed = 50;

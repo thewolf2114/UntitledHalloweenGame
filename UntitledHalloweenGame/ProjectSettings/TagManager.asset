@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Connections
+  - GameOver
+  - Pause
+  - ChildHouse
+  - Candy
   layers:
   - Default
   - TransparentFX
@@ -18,10 +23,10 @@ TagManager:
   - Ground
   - PickUp
   - Player
-  - 
-  - 
-  - 
-  - 
+  - Corner
+  - Straight
+  - DeadEnd
+  - Connection
   - 
   - 
   - 

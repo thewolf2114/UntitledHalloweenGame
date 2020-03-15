@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public GameObject deadMenu;
-    public GameObject pauseMenu;
-    public Text healthText;
+    GameObject deadMenu;
+    GameObject pauseMenu;
+    Text healthText;
     string originalText;
     int currCandy = 15;
     int maxCandy = 100;
@@ -17,6 +17,13 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
+        deadMenu = GameObject.FindGameObjectWithTag("GameOver");
+        pauseMenu = GameObject.FindGameObjectWithTag("Pause");
+        healthText = GameObject.Find("Candy").GetComponent<Text>();
+
+        deadMenu.SetActive(false);
+        pauseMenu.SetActive(false);
+
         originalText = healthText.text;
         healthText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
 
