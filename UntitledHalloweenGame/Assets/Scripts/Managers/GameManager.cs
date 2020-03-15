@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject levelGenerator, player;
 
-    public static GameObject Instance { get; private set; }
+    //public static GameObject Instance { get; private set; }
 
     float fogTimer = 15;
     float densityIncrease = 0.0001f;
@@ -16,13 +16,13 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = gameObject;
-            DontDestroyOnLoad(this);
-        }
-        else
-            Destroy(gameObject);
+        //if (Instance == null)
+        //{
+        //    Instance = gameObject;
+        //    DontDestroyOnLoad(this);
+        //}
+        //else
+        //    Destroy(gameObject);
 
         if (levelGenerator)
             Instantiate(levelGenerator);

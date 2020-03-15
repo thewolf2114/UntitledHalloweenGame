@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ModelCreationScene.unity
     guid: 0fcd16b5abbc7d345a94239c373c0a05
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 0ff93727c86203144b3664b57dcfe659
+  - enabled: 1
     path: Assets/Scenes/LevelGenerationTest.unity
     guid: 416791a1a975107489019752601cd8e3
   m_configObjects: {}
