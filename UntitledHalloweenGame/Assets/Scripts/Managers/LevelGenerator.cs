@@ -406,6 +406,10 @@ public class LevelGenerator : MonoBehaviour
                 continue;
             }
 
+            //Vector3 position = currPosition;
+            //FindGridPointFromConnection(connectionPoint, ref position);
+            
+
             // if there is a connection with any other road
             for (int i = 0; i < roadsInGame.Count; i++)
             {
