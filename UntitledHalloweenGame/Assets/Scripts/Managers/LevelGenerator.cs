@@ -19,6 +19,7 @@ public class LevelGenerator : MonoBehaviour
     const int Z_INCREMENT = 60;
     const int LEVEL_WIDTH = 4;  // range from 0 to 4
     const int LEVEL_HEIGHT = 4; // range from 0 to 4
+    const float LEVEL_COMPLETION_PERCENTAGE = 0.8f;
 
     // Start is called before the first frame update
     void Start()
@@ -112,18 +113,65 @@ public class LevelGenerator : MonoBehaviour
                 road = Instantiate(emptySection, LocalToGlobal(currPosition), emptySection.transform.rotation);
             }
 
+            // ensure that the road is in some kind of proper orientation
             RotateRoad(point, ref road);
 
+            // remove the connection points that can never be used
             RemoveConnectionPoints(ref point, ref road, currPosition, ref connectionPoints, roadGrid);
 
+            // add the remaining connection points to the queue
             foreach (GameObject connection in road.GetComponent<RoadConnections>().Connections)
             {
                 connectionPoints.Enqueue(connection);
             }
 
+            // add the road segment to the road grid
             roadGrid[(int)currPosition.z][(int)currPosition.x] = road;
 
+            // add the road to the roads in the game list
             roadsInGame.Add(road);
+
+            // if we have run out of connection points make sure that the 
+            // level is sufficiently filled
+            if (connectionPoints.Count == 0)
+            {
+                float numberOfRoads = roadsInGame.Count;
+                float totalPossibleRoads = roadGrid.Count * roadGrid[0].Count;
+
+                if ((numberOfRoads / totalPossibleRoads) < LEVEL_COMPLETION_PERCENTAGE)
+                {
+                    currPosition = Vector3.zero;
+
+                    // destroy all the roads
+                    foreach (GameObject obj in roadsInGame)
+                    {
+                        Destroy(obj);
+                    }
+                    roadsInGame.Clear();
+                    roadGrid.Clear();
+
+                    // make the dead end section
+                    deadEnd = Instantiate(roads[1], LocalToGlobal(currPosition), roads[1].transform.rotation) as GameObject;
+                    randomRotation = Random.Range(0, 2);
+                    deadEnd.transform.rotation *= (randomRotation == 0) ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, 180, 0);
+
+                    // reset the road grid
+                    for (int i = 0; i <= LEVEL_WIDTH; i++)
+                    {
+                        List<GameObject> emptyList = new List<GameObject>();
+                        for (int j = 0; j <= LEVEL_HEIGHT; j++)
+                        {
+                            emptyList.Add(null);
+                        }
+                        roadGrid.Add(emptyList);
+                    }
+                    roadGrid[0][0] = deadEnd;
+                    roadsInGame.Add(deadEnd);
+
+                    // add the connection point to the queue
+                    connectionPoints = new Queue<GameObject>(deadEnd.GetComponent<RoadConnections>().Connections);
+                }
+            }
 
             looped--;
         }
@@ -216,12 +264,14 @@ public class LevelGenerator : MonoBehaviour
         Vector3 up = currPosition + Vector3.forward;
         Vector3 back = currPosition.z > 0 ? currPosition + Vector3.back : Vector3.one;
 
-        if ((currPosition.x < 1 || currPosition.x >= LEVEL_WIDTH) && (currPosition.z < 1 || currPosition.z >= LEVEL_HEIGHT))
+        // if we are currently on a corner
+        if ((currPosition.x < 0.5f || currPosition.x >= LEVEL_WIDTH) && (currPosition.z < 0.5f || currPosition.z >= LEVEL_HEIGHT))
         {
             spawnableRoads.Remove(roads[(int)Roads.CROSS]);
             spawnableRoads.Remove(roads[(int)Roads.STRAIGHT]);
             spawnableRoads.Remove(roads[(int)Roads.TEE]);
         }
+        // if we are currently on an edge
         else if ((currPosition.x < 1 || currPosition.x >= LEVEL_WIDTH) || (currPosition.z < 1 || currPosition.z >= LEVEL_HEIGHT))
         {
             spawnableRoads.Remove(roads[(int)Roads.CROSS]);
