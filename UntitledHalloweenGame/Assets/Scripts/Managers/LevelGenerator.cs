@@ -16,12 +16,6 @@ public class LevelGenerator : MonoBehaviour
     List<GameObject> roadsInGame;
     LayerMask cornerLayer;
 
-    const int X_INCREMENT = 60;
-    const int Z_INCREMENT = 60;
-    const int LEVEL_WIDTH = 4;  // range from 0 to 4
-    const int LEVEL_HEIGHT = 4; // range from 0 to 4
-    const float LEVEL_COMPLETION_PERCENTAGE = 0.8f;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +48,7 @@ public class LevelGenerator : MonoBehaviour
     private void PlaceStartingBoarder(ref Vector3 currPosition)
     {
         Instantiate(startingBoarder, currPosition, Quaternion.identity);
-        currPosition = GlobalToLocal(new Vector3(X_INCREMENT / 2, 0, Z_INCREMENT / 2));
+        currPosition = GlobalToLocal(new Vector3(Constants.X_INCREMENT / 2, 0, Constants.Z_INCREMENT / 2));
     }
 
     /// <summary>
@@ -63,18 +57,22 @@ public class LevelGenerator : MonoBehaviour
     /// <param name="currPosition">a reference to the current spot</param>
     private void BuildRoads(ref Vector3 currPosition)
     {
+        // used to save navmesh information from the roads
+        List<NavMeshSurface> surfaces = new List<NavMeshSurface>();
+
         // initializing the starting dead end position and setting its random rotation
         GameObject deadEnd = Instantiate(roads[1], LocalToGlobal(currPosition), roads[1].transform.rotation) as GameObject;
+        surfaces.Add(deadEnd.GetComponent<NavMeshSurface>());
         int randomRotation = Random.Range(0, 2);
         deadEnd.transform.rotation *= (randomRotation == 0) ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, 180, 0);
 
         // getting all the connection points that are on the starting section and initialize the road grid
         Queue<GameObject> connectionPoints = new Queue<GameObject>(deadEnd.GetComponent<RoadConnections>().Connections);
         List<List<GameObject>> roadGrid = new List<List<GameObject>>();
-        for (int i = 0; i <= LEVEL_WIDTH; i++)
+        for (int i = 0; i <= Constants.LEVEL_HEIGHT; i++)
         {
             List<GameObject> emptyList = new List<GameObject>();
-            for (int j = 0; j <= LEVEL_HEIGHT; j++)
+            for (int j = 0; j <= Constants.LEVEL_HEIGHT; j++)
             {
                 emptyList.Add(null);
             }
@@ -110,6 +108,7 @@ public class LevelGenerator : MonoBehaviour
             {
                 roadIndex = Random.Range(0, possibleRoads.Count);
                 road = Instantiate(possibleRoads[roadIndex], LocalToGlobal(currPosition), possibleRoads[roadIndex].transform.rotation) as GameObject;
+                surfaces.Add(road.GetComponent<NavMeshSurface>());
             }
             else
             {
@@ -141,7 +140,7 @@ public class LevelGenerator : MonoBehaviour
                 float numberOfRoads = roadsInGame.Count;
                 float totalPossibleRoads = roadGrid.Count * roadGrid[0].Count;
 
-                if ((numberOfRoads / totalPossibleRoads) < LEVEL_COMPLETION_PERCENTAGE)
+                if ((numberOfRoads / totalPossibleRoads) < Constants.LEVEL_COMPLETION_PERCENTAGE)
                 {
                     currPosition = Vector3.zero;
 
@@ -159,10 +158,10 @@ public class LevelGenerator : MonoBehaviour
                     deadEnd.transform.rotation *= (randomRotation == 0) ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, 180, 0);
 
                     // reset the road grid
-                    for (int i = 0; i <= LEVEL_WIDTH; i++)
+                    for (int i = 0; i <= Constants.LEVEL_WIDTH; i++)
                     {
                         List<GameObject> emptyList = new List<GameObject>();
-                        for (int j = 0; j <= LEVEL_HEIGHT; j++)
+                        for (int j = 0; j <= Constants.LEVEL_HEIGHT; j++)
                         {
                             emptyList.Add(null);
                         }
@@ -188,11 +187,15 @@ public class LevelGenerator : MonoBehaviour
                 {
                     currPosition = new Vector3(j, 0, i);
                     GameObject blank = Instantiate(emptySection, LocalToGlobal(currPosition), emptySection.transform.rotation) as GameObject;
+                    surfaces.Add(blank.GetComponent<NavMeshSurface>());
 
                     roadGrid[i][j] = blank;
                 }
             }
         }
+
+        // give all the surfaces to the navmesh baker
+        GameManager.Instance.NavBaker.Surfaces = surfaces;
     }
 
     /// <summary>
@@ -266,14 +269,14 @@ public class LevelGenerator : MonoBehaviour
         Vector3 back = currPosition.z > 0 ? currPosition + Vector3.back : Vector3.one;
 
         // if we are currently on a corner
-        if ((currPosition.x < 0.5f || currPosition.x >= LEVEL_WIDTH) && (currPosition.z < 0.5f || currPosition.z >= LEVEL_HEIGHT))
+        if ((currPosition.x < 0.5f || currPosition.x >= Constants.LEVEL_WIDTH) && (currPosition.z < 0.5f || currPosition.z >= Constants.LEVEL_HEIGHT))
         {
             spawnableRoads.Remove(roads[(int)Roads.CROSS]);
             spawnableRoads.Remove(roads[(int)Roads.STRAIGHT]);
             spawnableRoads.Remove(roads[(int)Roads.TEE]);
         }
         // if we are currently on an edge
-        else if ((currPosition.x < 1 || currPosition.x >= LEVEL_WIDTH) || (currPosition.z < 1 || currPosition.z >= LEVEL_HEIGHT))
+        else if ((currPosition.x < 1 || currPosition.x >= Constants.LEVEL_WIDTH) || (currPosition.z < 1 || currPosition.z >= Constants.LEVEL_HEIGHT))
         {
             spawnableRoads.Remove(roads[(int)Roads.CROSS]);
             spawnableRoads.Remove(roads[(int)Roads.DEAD_END]);
@@ -294,8 +297,8 @@ public class LevelGenerator : MonoBehaviour
         gridPoint.z /= 30;
 
         currPosition += gridPoint;
-        Mathf.Clamp(currPosition.x, 0, LEVEL_WIDTH);
-        Mathf.Clamp(currPosition.z, 0, LEVEL_HEIGHT);
+        Mathf.Clamp(currPosition.x, 0, Constants.LEVEL_WIDTH);
+        Mathf.Clamp(currPosition.z, 0, Constants.LEVEL_HEIGHT);
     }
 
     /// <summary>
@@ -350,9 +353,9 @@ public class LevelGenerator : MonoBehaviour
         foreach(GameObject connection in road.GetComponent<RoadConnections>().Connections)
         {
             if ((connection.transform.position.x - 0) < tolerence && (roadPosition.x - 0) < tolerence ||
-                (connection.transform.position.x - (LEVEL_WIDTH * 60) + 60) < tolerence && roadPosition.x == LEVEL_WIDTH ||
+                (connection.transform.position.x - (Constants.LEVEL_WIDTH * 60) + 60) < tolerence && roadPosition.x == Constants.LEVEL_WIDTH ||
                 (connection.transform.position.z - 0) < tolerence && (roadPosition.z - 0) < tolerence ||
-                (connection.transform.position.z - (LEVEL_HEIGHT * 60) + 60) < tolerence && roadPosition.z == LEVEL_HEIGHT)
+                (connection.transform.position.z - (Constants.LEVEL_HEIGHT * 60) + 60) < tolerence && roadPosition.z == Constants.LEVEL_HEIGHT)
             {
                 noEnds = false;
             }
@@ -390,7 +393,7 @@ public class LevelGenerator : MonoBehaviour
                 removedPoints.Add(connectionPoint);
                 continue;
             }
-            else if (currPosition.x == LEVEL_WIDTH && (connectionPoint.transform.localPosition.x - 30) < tolerance)
+            else if (currPosition.x == Constants.LEVEL_WIDTH && (connectionPoint.transform.localPosition.x - 30) < tolerance)
             {
                 removedPoints.Add(connectionPoint);
                 continue;
@@ -401,7 +404,7 @@ public class LevelGenerator : MonoBehaviour
                 removedPoints.Add(connectionPoint);
                 continue;
             }
-            else if (currPosition.z == LEVEL_HEIGHT && (connectionPoint.transform.localPosition.z - 30) < tolerance)
+            else if (currPosition.z == Constants.LEVEL_HEIGHT && (connectionPoint.transform.localPosition.z - 30) < tolerance)
             {
                 removedPoints.Add(connectionPoint);
                 continue;

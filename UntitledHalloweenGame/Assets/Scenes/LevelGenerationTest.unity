@@ -472,36 +472,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e627422716518f4b904302590f88311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  surface: {fileID: 969693524}
---- !u!114 &969693524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969693520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1b2ab93d1b7444c9fefa9d7e1ae7d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
-  m_CollectObjects: 1
-  m_Size: {x: 300, y: 2, z: 300}
-  m_Center: {x: 0, y: -0.2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 58369
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.033333335
-  m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: a53968b087c1b5842a8f3d9327db43fc, type: 2}
 --- !u!1001 &1151566531
 PrefabInstance:
   m_ObjectHideFlags: 0
