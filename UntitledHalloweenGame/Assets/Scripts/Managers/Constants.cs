@@ -12,7 +12,7 @@ public static class Constants
     public const float LEVEL_COMPLETION_PERCENTAGE = 0.8f;
 
     // navmesh baking
-    public const int LINK_START_POINT_OFFSET = 25;
-    public const int LINK_END_POINT_OFFSET = 35;
+    public const int LINK_START_POINT_OFFSET = 29;
+    public const int LINK_END_POINT_OFFSET = 31;
     public const int LINK_WIDTH = 60;
 }

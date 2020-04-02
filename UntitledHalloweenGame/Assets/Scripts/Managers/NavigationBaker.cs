@@ -14,30 +14,38 @@ public class NavigationBaker : MonoBehaviour
     /// </summary>
     public void BuildNavMesh()
     {
-        //if (RoadGrid.Count > 0)
-        //{
-        //    for (int i = RoadGrid.Count - 1; i > 0; i--)
-        //    {
-        //        for (int j = RoadGrid[0].Count - 1; j > 0; j--)
-        //        {
-        //            if (i == Constants.LEVEL_WIDTH && j == Constants.LEVEL_HEIGHT)
-        //                continue;
+        if (RoadGrid.Count > 0)
+        {
+            Vector3 startLeftOffset = Vector3.right * Constants.LINK_START_POINT_OFFSET;
+            Vector3 endLeftOffset = Vector3.right * Constants.LINK_END_POINT_OFFSET;
+            Vector3 startBottomOffset = Vector3.forward * Constants.LINK_START_POINT_OFFSET;
+            Vector3 endBottomOffset = Vector3.forward * Constants.LINK_END_POINT_OFFSET;
 
-        //            if (i == Constants.LEVEL_WIDTH)
-        //            {
-        //                NavMeshLink link = RoadGrid[i][j].AddComponent<NavMeshLink>();
-        //                link.startPoint = Vector3.right * Constants.LINK_START_POINT_OFFSET;
-        //                link.endPoint = Vector3.right * Constants.LINK_END_POINT_OFFSET;
-        //                link.width = Constants.LINK_WIDTH;
-        //                continue;
-        //            }
-        //            else if (j == Constants.LEVEL_HEIGHT)
-        //            {
-        //                NavMeshLink link = RoadGrid[i][j].AddComponent<NavMeshLink>();
-        //            }
-        //        }
-        //    }
-        //}
+            // sew up the nav mesh
+            for (int i = RoadGrid.Count - 1; i >= 0; i--)
+            {
+                for (int j = RoadGrid[0].Count - 1; j >= 0; j--)
+                {
+                    if (i == Constants.LEVEL_HEIGHT && j == Constants.LEVEL_WIDTH)
+                        continue;
+
+                    if (i != Constants.LEVEL_HEIGHT)
+                    {
+                        NavMeshLink link = RoadGrid[i][j].AddComponent<NavMeshLink>();
+                        link.startPoint = RoadGrid[i][j].transform.InverseTransformPoint(RoadGrid[i][j].transform.position + startBottomOffset);
+                        link.endPoint = RoadGrid[i][j].transform.InverseTransformPoint(RoadGrid[i][j].transform.position + endBottomOffset);
+                        link.width = Constants.LINK_WIDTH;
+                    }
+                    if (j != Constants.LEVEL_WIDTH)
+                    {
+                        NavMeshLink link = RoadGrid[i][j].AddComponent<NavMeshLink>();
+                        link.startPoint = RoadGrid[i][j].transform.InverseTransformPoint(RoadGrid[i][j].transform.position + startLeftOffset);
+                        link.endPoint = RoadGrid[i][j].transform.InverseTransformPoint(RoadGrid[i][j].transform.position + endLeftOffset);
+                        link.width = Constants.LINK_WIDTH;
+                    }
+                }
+            }
+        }
         if (Surfaces.Count > 0)
         {
             foreach (NavMeshSurface surface in Surfaces)

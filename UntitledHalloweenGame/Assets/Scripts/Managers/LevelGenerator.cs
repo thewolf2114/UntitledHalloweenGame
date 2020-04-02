@@ -152,8 +152,12 @@ public class LevelGenerator : MonoBehaviour
                     roadsInGame.Clear();
                     roadGrid.Clear();
 
+                    // clear surfaces
+                    surfaces.Clear();
+
                     // make the dead end section
                     deadEnd = Instantiate(roads[1], LocalToGlobal(currPosition), roads[1].transform.rotation) as GameObject;
+                    surfaces.Add(deadEnd.GetComponent<NavMeshSurface>());
                     randomRotation = Random.Range(0, 2);
                     deadEnd.transform.rotation *= (randomRotation == 0) ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, 180, 0);
 
@@ -194,8 +198,9 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        // give all the surfaces to the navmesh baker
+        // give all the surfaces and road grid to the navmesh baker
         GameManager.Instance.NavBaker.Surfaces = surfaces;
+        GameManager.Instance.NavBaker.RoadGrid = roadGrid;
     }
 
     /// <summary>
