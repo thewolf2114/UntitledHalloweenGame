@@ -7,7 +7,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject levelGenerator, player;
 
-    //public static GameObject Instance { get; private set; }
+    public static GameManager Instance { get; private set; }
+
+    private NavigationBaker baker;
 
     float fogTimer = 15;
     float densityIncrease = 0.0001f;
@@ -16,24 +18,36 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        //if (Instance == null)
-        //{
-        //    Instance = gameObject;
-        //    DontDestroyOnLoad(this);
-        //}
-        //else
-        //    Destroy(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+            Destroy(gameObject);
 
         if (levelGenerator)
             Instantiate(levelGenerator);
         if (player)
             Instantiate(player, new Vector3(30, 0, 30), player.transform.rotation);
+
+        baker = GetComponent<NavigationBaker>();
+
+        StartCoroutine(Fog());
+    }
+
+    /// <summary>
+    /// Returns the NavMeshBaker
+    /// </summary>
+    public NavigationBaker NavBaker
+    {
+        get { return baker; }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Fog());
+        
     }
 
     // Update is called once per frame

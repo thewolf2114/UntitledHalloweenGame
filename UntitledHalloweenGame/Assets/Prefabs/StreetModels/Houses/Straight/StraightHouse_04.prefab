@@ -52,8 +52,8 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.5091255, y: 2.1108036, z: 0.13969485}
   m_Center: {x: -1.2434378, y: 1.0461464, z: 0}
---- !u!65 &4144526773751917720
-BoxCollider:
+--- !u!64 &9095914302900081124
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -62,9 +62,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 8.871231, y: 6.4727745, z: 13.871233}
-  m_Center: {x: 0, y: 3.1228414, z: 0}
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: f7d75c74e48552c408be0ca1fd4adc24, type: 3}
 --- !u!114 &5467578713832306427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4939,7 +4940,7 @@ PrefabInstance:
     - target: {fileID: 1477018188683495463, guid: 49dd6b0131d3d66419eff047477681b9,
         type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 6457263908916865319, guid: 49dd6b0131d3d66419eff047477681b9,
         type: 3}
@@ -4949,7 +4950,7 @@ PrefabInstance:
     - target: {fileID: 6457263908916865319, guid: 49dd6b0131d3d66419eff047477681b9,
         type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 6890400715598928690, guid: 49dd6b0131d3d66419eff047477681b9,
         type: 3}
@@ -4959,7 +4960,7 @@ PrefabInstance:
     - target: {fileID: 6890400715598928690, guid: 49dd6b0131d3d66419eff047477681b9,
         type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49dd6b0131d3d66419eff047477681b9, type: 3}
@@ -6101,7 +6102,7 @@ PrefabInstance:
     - target: {fileID: 1477018188683495463, guid: 49dd6b0131d3d66419eff047477681b9,
         type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 6457263908916865319, guid: 49dd6b0131d3d66419eff047477681b9,
         type: 3}
@@ -6111,7 +6112,7 @@ PrefabInstance:
     - target: {fileID: 6457263908916865319, guid: 49dd6b0131d3d66419eff047477681b9,
         type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 6890400715598928690, guid: 49dd6b0131d3d66419eff047477681b9,
         type: 3}
@@ -6121,7 +6122,7 @@ PrefabInstance:
     - target: {fileID: 6890400715598928690, guid: 49dd6b0131d3d66419eff047477681b9,
         type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49dd6b0131d3d66419eff047477681b9, type: 3}

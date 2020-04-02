@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1474197508757537437}
   - component: {fileID: 1444779219677251211}
   - component: {fileID: 1452626445181239837}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: StreetLamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7321830093049121680}
   - component: {fileID: 7115531287860174985}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 231556715735917029}
   - component: {fileID: 684787229152499410}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Point Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

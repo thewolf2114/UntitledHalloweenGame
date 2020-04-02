@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -41,6 +42,9 @@ public class LevelGenerator : MonoBehaviour
 
         // house generation
         BuildHouses();
+
+        // rebuild the navmesh
+        GameManager.Instance.NavBaker.BuildNavMesh();
     }
 
     /// <summary>
@@ -86,7 +90,7 @@ public class LevelGenerator : MonoBehaviour
         List<GameObject> possibleRoads;
         int roadIndex;
         GameObject road;
-        int looped = 500;
+        int looped = 1000;
 
         // while there are still available connection points
         while (connectionPoints.Count > 0 && looped > 0)
@@ -106,7 +110,6 @@ public class LevelGenerator : MonoBehaviour
             {
                 roadIndex = Random.Range(0, possibleRoads.Count);
                 road = Instantiate(possibleRoads[roadIndex], LocalToGlobal(currPosition), possibleRoads[roadIndex].transform.rotation) as GameObject;
-                possibleRoads.RemoveAt(roadIndex);
             }
             else
             {
@@ -176,6 +179,7 @@ public class LevelGenerator : MonoBehaviour
             looped--;
         }
 
+        // fill the empty spaces
         for (int i = 0; i < roadGrid.Count; i++)
         {
             for (int j = 0; j < roadGrid[0].Count; j++)
@@ -185,10 +189,7 @@ public class LevelGenerator : MonoBehaviour
                     currPosition = new Vector3(j, 0, i);
                     GameObject blank = Instantiate(emptySection, LocalToGlobal(currPosition), emptySection.transform.rotation) as GameObject;
 
-                    temp = roadGrid[i][j];
-                    roadGrid[i].Remove(temp);
-                    Destroy(temp);
-                    roadGrid[i].Insert(j, blank);
+                    roadGrid[i][j] = blank;
                 }
             }
         }
