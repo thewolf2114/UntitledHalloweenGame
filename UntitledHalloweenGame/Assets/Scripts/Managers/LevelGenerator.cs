@@ -9,7 +9,7 @@ public class LevelGenerator : MonoBehaviour
     private List<GameObject> roads, cornerHouses, straightHouses;
 
     [SerializeField]
-    private GameObject startingBoarder, emptySection;
+    private GameObject startingBoarder, emptySection, skeleton;
 
     private enum Roads { CROSS, DEAD_END, STRAIGHT, TEE };
 
@@ -39,6 +39,9 @@ public class LevelGenerator : MonoBehaviour
 
         // rebuild the navmesh
         GameManager.Instance.NavBaker.BuildNavMesh();
+
+        // add all the agents to the scene
+        PlaceAgents();
     }
 
     /// <summary>
@@ -257,6 +260,11 @@ public class LevelGenerator : MonoBehaviour
             // clear the house list for the next road segment
             houses.Clear();
         }
+    }
+
+    private void PlaceAgents()
+    {
+        Instantiate(skeleton, new Vector3(150, 0, 150), Quaternion.identity);
     }
 
     /// <summary>

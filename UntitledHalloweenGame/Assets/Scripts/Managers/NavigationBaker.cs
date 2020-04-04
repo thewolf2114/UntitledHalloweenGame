@@ -35,6 +35,7 @@ public class NavigationBaker : MonoBehaviour
                         link.startPoint = RoadGrid[i][j].transform.InverseTransformPoint(RoadGrid[i][j].transform.position + startBottomOffset);
                         link.endPoint = RoadGrid[i][j].transform.InverseTransformPoint(RoadGrid[i][j].transform.position + endBottomOffset);
                         link.width = Constants.LINK_WIDTH;
+                        link.costModifier = 1;
                     }
                     if (j != Constants.LEVEL_WIDTH)
                     {
@@ -42,6 +43,7 @@ public class NavigationBaker : MonoBehaviour
                         link.startPoint = RoadGrid[i][j].transform.InverseTransformPoint(RoadGrid[i][j].transform.position + startLeftOffset);
                         link.endPoint = RoadGrid[i][j].transform.InverseTransformPoint(RoadGrid[i][j].transform.position + endLeftOffset);
                         link.width = Constants.LINK_WIDTH;
+                        link.costModifier = 1;
                     }
                 }
             }
