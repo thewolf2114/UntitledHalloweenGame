@@ -37,7 +37,10 @@ public class StateMachine
     }
 }
 
-public class Idle : IState
+/// <summary>
+/// Defines the Idle state
+/// </summary>
+public class IdleState : IState
 {
     void IState.OnStateEnter(Animator animController)
     {
@@ -54,7 +57,10 @@ public class Idle : IState
     }
 }
 
-public class Run : IState
+/// <summary>
+/// Defines the Run state
+/// </summary>
+public class RunState : IState
 {
     void IState.OnStateEnter(Animator animController)
     {
@@ -71,7 +77,10 @@ public class Run : IState
     }
 }
 
-public class Attack : IState
+/// <summary>
+/// Defines the Attack state
+/// </summary>
+public class AttackState : IState
 {
     void IState.OnStateEnter(Animator animController)
     {
@@ -88,7 +97,10 @@ public class Attack : IState
     }
 }
 
-public class Dead : IState
+/// <summary>
+/// Defines the Dead state
+/// </summary>
+public class DeadState : IState
 {
     void IState.OnStateEnter(Animator animController)
     {
@@ -106,7 +118,7 @@ public class Dead : IState
 }
 
 //[RequireComponent(typeof(NavMeshAgent))]
-//[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Animator))]
 
 public class Skeleton : MonoBehaviour
 {
@@ -125,7 +137,7 @@ public class Skeleton : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
-        stateMachine.ChangeState(animator, new Idle());
+        stateMachine.ChangeState(animator, new IdleState());
     }
 
     // Update is called once per frame
@@ -137,16 +149,20 @@ public class Skeleton : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, player.transform.position) <= agent.stoppingDistance)
             {
-                stateMachine.ChangeState(animator, new Attack());
+                stateMachine.ChangeState(animator, new AttackState());
             }
             else
             {
-                stateMachine.ChangeState(animator, new Run());
+                stateMachine.ChangeState(animator, new RunState());
                 MoveToLocation(player.transform.position);
             }
         }
     }
 
+    /// <summary>
+    /// Move the agent to a desired location on the navmesh
+    /// </summary>
+    /// <param name="destination">the point in world space you want to go</param>
     void MoveToLocation(Vector3 destination)
     {
         agent.destination = destination;
@@ -165,6 +181,10 @@ public class Skeleton : MonoBehaviour
         return end;
     }
 
+    /// <summary>
+    /// Starts a timer to wait and then start the kill sequence
+    /// </summary>
+    /// <returns></returns>
     IEnumerator DeadTimer()
     {
         yield return new WaitForSeconds(deadTimer);
@@ -172,6 +192,11 @@ public class Skeleton : MonoBehaviour
         StartCoroutine(KillSequence());
     }
 
+    /// <summary>
+    /// Pushes the skeleton through the floor and when it reaches a certain depth
+    /// destroy it.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator KillSequence()
     {
         bool complete = false;
@@ -187,13 +212,26 @@ public class Skeleton : MonoBehaviour
         Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Registers a hit if the collider doesn't pick it up
+    /// </summary> 
+    public void Hit()
+    {
+        dead = true;
+        stateMachine.Dead = true;
+        stateMachine.ChangeState(animator, new DeadState());
+        agent.isStopped = true;
+        Destroy(agent);
+        StartCoroutine(DeadTimer());
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile") && !dead)
         {
             dead = true;
             stateMachine.Dead = true;
-            stateMachine.ChangeState(animator, new Dead());
+            stateMachine.ChangeState(animator, new DeadState());
             agent.isStopped = true;
             Destroy(agent);
             StartCoroutine(DeadTimer());
