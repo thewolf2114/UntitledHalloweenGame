@@ -264,7 +264,7 @@ public class LevelGenerator : MonoBehaviour
 
     private void PlaceAgents()
     {
-        Instantiate(skeleton, new Vector3(150, 0, 150), Quaternion.identity);
+        Instantiate(skeleton, new Vector3(90, 0, 30), Quaternion.identity);
     }
 
     /// <summary>

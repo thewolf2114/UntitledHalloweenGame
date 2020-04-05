@@ -10,7 +10,7 @@ public class PlayerShoot : MonoBehaviour
     public Transform projectileStart;
     public GameObject projectile;
     public int distance = 5;
-    public int projectileSpeed = 50;
+    public int projectileSpeed = 25;
     public float shootTimer = 0.25f;
     bool canShoot = true;
 
@@ -34,8 +34,14 @@ public class PlayerShoot : MonoBehaviour
     void SpawnAndShoot()
     {
         GameObject spawnedProjectile = Instantiate(projectile, projectileStart.position, Quaternion.identity) as GameObject;
+
+        RaycastHit hit;
         Vector3 direction = Camera.main.transform.forward;
-        spawnedProjectile.GetComponent<Rigidbody>().AddForce(direction * projectileSpeed, ForceMode.Impulse);
+        if (Physics.Raycast(Camera.main.gameObject.transform.position, direction, out hit, Mathf.Infinity))
+        {
+            Vector3 projectileDirection = hit.point - projectileStart.position;
+            spawnedProjectile.GetComponent<Rigidbody>().AddForce(projectileDirection.normalized * projectileSpeed, ForceMode.Impulse);
+        }
     }
 
     IEnumerator ShootTimer()
