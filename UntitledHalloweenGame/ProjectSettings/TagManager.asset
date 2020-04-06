@@ -9,6 +9,7 @@ TagManager:
   - Pause
   - ChildHouse
   - Candy
+  - HealthBar
   layers:
   - Default
   - TransparentFX

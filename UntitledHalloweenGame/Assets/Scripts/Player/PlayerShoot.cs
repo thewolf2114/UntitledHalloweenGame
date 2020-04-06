@@ -37,7 +37,10 @@ public class PlayerShoot : MonoBehaviour
 
         RaycastHit hit;
         Vector3 direction = Camera.main.transform.forward;
-        if (Physics.Raycast(Camera.main.gameObject.transform.position, direction, out hit, Mathf.Infinity))
+        int connectionLayer = 16;
+        int streetLightLayer = 17;
+        int notThese = ~((1 << connectionLayer) | (1 << streetLightLayer));
+        if (Physics.Raycast(Camera.main.transform.position, direction, out hit, Mathf.Infinity, notThese))
         {
             Vector3 projectileDirection = hit.point - projectileStart.position;
             spawnedProjectile.GetComponent<Rigidbody>().AddForce(projectileDirection.normalized * projectileSpeed, ForceMode.Impulse);

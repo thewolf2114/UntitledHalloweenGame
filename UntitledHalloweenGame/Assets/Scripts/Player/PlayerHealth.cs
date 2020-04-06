@@ -5,27 +5,35 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    GameObject deadMenu;
-    GameObject pauseMenu;
-    Text healthText;
+    GameObject deadMenu, pauseMenu;
+    Text candyText;
+    Slider healthBar;
+
+    LayerMask damageLayer;
+
     string originalText;
-    int currCandy = 15;
-    int maxCandy = 100;
-    int damage = 10;
-    float hitTimer = 0.1f;
+    int currHealth, maxHealth, currCandy = 0, maxCandy = 100, damage = 10;
+    float hitTimer = 0.8f;
     bool isHit = false;
 
     void Start()
     {
         deadMenu = GameObject.FindGameObjectWithTag("GameOver");
         pauseMenu = GameObject.FindGameObjectWithTag("Pause");
-        healthText = GameObject.Find("Candy").GetComponent<Text>();
+        candyText = GameObject.FindGameObjectWithTag("Candy").GetComponent<Text>();
+        healthBar = GameObject.FindGameObjectWithTag("HealthBar").GetComponent<Slider>();
 
         deadMenu.SetActive(false);
         pauseMenu.SetActive(false);
 
-        originalText = healthText.text;
-        healthText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
+        maxHealth = 100;
+        currHealth = maxHealth;
+        healthBar.value = ((float)currHealth / maxHealth);
+
+        originalText = candyText.text;
+        candyText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
+
+        damageLayer = LayerMask.NameToLayer("Melee");
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -33,30 +41,31 @@ public class PlayerHealth : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetAxis("Cancel") != 0)
+        if (Input.GetButtonUp("Cancel"))
         {
-            GetComponent<PlayerController>().Dead = true;
-            GetComponent<PlayerShoot>().Dead = true;
+            GetComponent<PlayerController>().Dead = !GetComponent<PlayerController>().Dead;
+            GetComponent<PlayerShoot>().Dead = !GetComponent<PlayerShoot>().Dead;
 
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            pauseMenu.SetActive(true);
+            Cursor.lockState = pauseMenu.activeSelf ? CursorLockMode.Locked : CursorLockMode.None;
+            Cursor.visible = !Cursor.visible;
+            pauseMenu.SetActive(!pauseMenu.activeSelf);
         }
     }
 
-    private void OnControllerColliderHit(ControllerColliderHit collision)
+    public void Damage()
     {
-        if (!isHit && collision.gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))
+        if (!isHit)
         {
+            Debug.Log("Hit Player");
             isHit = true;
-            currCandy -= damage;
+            currHealth -= damage;
 
-            if (currCandy < 0)
-                currCandy = 0;
+            if (currHealth < 0)
+                currHealth = 0;
 
-            healthText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
+            healthBar.value = ((float)currHealth / maxHealth);
 
-            if (currCandy <= 0)
+            if (currHealth <= 0)
             {
                 GetComponent<PlayerController>().Dead = true;
                 GetComponent<PlayerShoot>().Dead = true;
@@ -65,10 +74,34 @@ public class PlayerHealth : MonoBehaviour
                 Cursor.visible = true;
                 deadMenu.SetActive(true);
             }
-
-            Destroy(collision.gameObject);
-            StartCoroutine("HitTimer");
+            StartCoroutine(HitTimer());
         }
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit collision)
+    {
+        //if (!isHit && collision.gameObject.layer == damageLayer)
+        //{
+        //    Debug.Log("Hit Player");
+        //    isHit = true;
+        //    currHealth -= damage;
+
+        //    if (currHealth < 0)
+        //        currHealth = 0;
+
+        //    healthBar.value = ((float)currHealth / maxHealth);
+
+        //    if (currHealth <= 0)
+        //    {
+        //        GetComponent<PlayerController>().Dead = true;
+        //        GetComponent<PlayerShoot>().Dead = true;
+
+        //        Cursor.lockState = CursorLockMode.None;
+        //        Cursor.visible = true;
+        //        deadMenu.SetActive(true);
+        //    }
+        //    StartCoroutine(HitTimer());
+        //}
     }
 
     void OnTriggerEnter(Collider other)
@@ -77,7 +110,7 @@ public class PlayerHealth : MonoBehaviour
         {
             int pickUpAmount = other.gameObject.GetComponentInParent<CandyPickup>().PickUpAmount;
             currCandy = (currCandy + pickUpAmount) >= maxCandy ? maxCandy : currCandy + pickUpAmount;
-            healthText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
+            candyText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
             Destroy(other.transform.root.gameObject);
         }
     }

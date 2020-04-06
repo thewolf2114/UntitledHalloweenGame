@@ -39,9 +39,6 @@ public class LevelGenerator : MonoBehaviour
 
         // rebuild the navmesh
         GameManager.Instance.NavBaker.BuildNavMesh();
-
-        // add all the agents to the scene
-        PlaceAgents();
     }
 
     /// <summary>
@@ -260,11 +257,6 @@ public class LevelGenerator : MonoBehaviour
             // clear the house list for the next road segment
             houses.Clear();
         }
-    }
-
-    private void PlaceAgents()
-    {
-        Instantiate(skeleton, new Vector3(90, 0, 30), Quaternion.identity);
     }
 
     /// <summary>

@@ -6,22 +6,44 @@ using UnityEngine.AI;
 public interface IState
 {
     void OnStateEnter(Animator animController);
-    void OnStateUpdate();
+    void OnStateUpdate(StateMachine statMachine, Animator animController);
     void OnStateExit(Animator animController);
 }
 
 public class StateMachine
 {
     IState currState;
+    Animator animController;
 
     public bool Dead { get; set; }
 
-    public StateMachine()
+    public enum States { Idle, Run, Attack, Hit, Dead }
+
+    public States CurrentState
     {
-        Dead = false;
+        get
+        {
+            States currentState;
+            if (animController.GetBool("Running_b"))
+                currentState = States.Run;
+            else if (animController.GetBool("Attacking_b"))
+                currentState = States.Attack;
+            else if (animController.GetBool("Dead_b"))
+                currentState = States.Dead;
+            else
+                currentState = States.Idle;
+
+            return currentState;
+        }
     }
 
-    public void ChangeState(Animator animController, IState newState)
+    public StateMachine(Animator anim)
+    {
+        Dead = false;
+        animController = anim;
+    }
+
+    public void ChangeState(IState newState)
     {
         if (currState != null)
             currState.OnStateExit(animController);
@@ -33,7 +55,7 @@ public class StateMachine
     public void Update()
     {
         if (currState != null && !Dead)
-            currState.OnStateUpdate();
+            currState.OnStateUpdate(this, animController);
     }
 }
 
@@ -44,10 +66,12 @@ public class IdleState : IState
 {
     void IState.OnStateEnter(Animator animController)
     {
-        
+        animController.SetBool("Running_b", false);
+        animController.SetBool("Attacking_b", false);
+        animController.SetBool("Hit_b", false);
     }
 
-    void IState.OnStateUpdate()
+    void IState.OnStateUpdate(StateMachine statMachine, Animator animController)
     {
 
     }
@@ -67,7 +91,7 @@ public class RunState : IState
         animController.SetBool("Running_b", true);
     }
 
-    void IState.OnStateUpdate()
+    void IState.OnStateUpdate(StateMachine statMachine, Animator animController)
     {
 
     }
@@ -87,13 +111,42 @@ public class AttackState : IState
         animController.SetBool("Attacking_b", true);
     }
 
-    void IState.OnStateUpdate()
+    void IState.OnStateUpdate(StateMachine statMachine, Animator animController)
     {
 
     }
     void IState.OnStateExit(Animator animController)
     {
         animController.SetBool("Attacking_b", false);
+    }
+}
+
+/// <summary>
+/// Defines the Dead state
+/// </summary>
+public class HitState : IState
+{
+    void IState.OnStateEnter(Animator animController)
+    {
+        animController.SetBool("Hit_b", true);
+    }
+
+    void IState.OnStateUpdate(StateMachine statMachine, Animator animController)
+    {
+        if (animController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+        {
+            IState nextState = new IdleState();
+            if (animController.GetBool("Running_b"))
+                nextState = new RunState();
+            else if (animController.GetBool("Attacking_b"))
+                nextState = new AttackState();
+
+            statMachine.ChangeState(nextState);
+        }
+    }
+    void IState.OnStateExit(Animator animController)
+    {
+        animController.SetBool("Hit_b", false);
     }
 }
 
@@ -107,7 +160,7 @@ public class DeadState : IState
         animController.SetBool("Dead_b", true);
     }
 
-    void IState.OnStateUpdate()
+    void IState.OnStateUpdate(StateMachine statMachine, Animator animController)
     {
 
     }
@@ -122,14 +175,19 @@ public class DeadState : IState
 
 public class Skeleton : MonoBehaviour
 {
+    [SerializeField]
+    Melee melee;
+
     private NavMeshAgent agent;
     private Animator animator;
     GameObject player;
-    StateMachine stateMachine = new StateMachine();
+    StateMachine stateMachine;
 
     float deadTimer = 10;
+    float pauseTimer = 3;
     int disapearSpeed = 1;
     bool dead = false;
+    bool ambush = true;
 
     // Start is called before the first frame update
     void Start()
@@ -137,7 +195,8 @@ public class Skeleton : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
-        stateMachine.ChangeState(animator, new IdleState());
+        stateMachine = new StateMachine(animator);
+        stateMachine.ChangeState(new IdleState());
     }
 
     // Update is called once per frame
@@ -145,17 +204,28 @@ public class Skeleton : MonoBehaviour
     {
         stateMachine.Update();
 
+        if (ambush)
+            return;
+
         if (agent && AtEndOfPath() && !dead)
         {
             if (Vector3.Distance(transform.position, player.transform.position) <= agent.stoppingDistance)
             {
-                stateMachine.ChangeState(animator, new AttackState());
+                melee.Strike = true;
+                stateMachine.ChangeState(new AttackState());
             }
             else
             {
-                stateMachine.ChangeState(animator, new RunState());
+                melee.Strike = false;
+                stateMachine.ChangeState(new RunState());
                 MoveToLocation(player.transform.position);
             }
+        }
+
+        if (!dead && stateMachine.CurrentState == StateMachine.States.Attack)
+        {
+            dead = true;
+            StartCoroutine(PauseTimer());
         }
     }
 
@@ -200,7 +270,6 @@ public class Skeleton : MonoBehaviour
     IEnumerator KillSequence()
     {
         bool complete = false;
-        Vector3 position;
         while (!complete)
         {
             transform.position += Vector3.down * disapearSpeed * Time.deltaTime;
@@ -212,6 +281,14 @@ public class Skeleton : MonoBehaviour
         Destroy(gameObject);
     }
 
+    IEnumerator PauseTimer()
+    {
+        yield return new WaitForSeconds(pauseTimer);
+
+        dead = false;
+        stateMachine.ChangeState(new RunState());
+    }
+
     /// <summary>
     /// Registers a hit if the collider doesn't pick it up
     /// </summary> 
@@ -219,7 +296,7 @@ public class Skeleton : MonoBehaviour
     {
         dead = true;
         stateMachine.Dead = true;
-        stateMachine.ChangeState(animator, new DeadState());
+        stateMachine.ChangeState(new DeadState());
         agent.isStopped = true;
         Destroy(agent);
         StartCoroutine(DeadTimer());
@@ -231,10 +308,19 @@ public class Skeleton : MonoBehaviour
         {
             dead = true;
             stateMachine.Dead = true;
-            stateMachine.ChangeState(animator, new DeadState());
+            stateMachine.ChangeState(new DeadState());
             agent.isStopped = true;
             Destroy(agent);
             StartCoroutine(DeadTimer());
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            ambush = false;
+            GetComponent<SphereCollider>().enabled = false;
         }
     }
 }
