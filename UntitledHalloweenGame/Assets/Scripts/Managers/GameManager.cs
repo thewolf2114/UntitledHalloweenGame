@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Pausable
 {
     [SerializeField]
     GameObject levelGenerator, player;
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    override protected void Start()
     {
         
     }
@@ -63,6 +63,9 @@ public class GameManager : MonoBehaviour
     private IEnumerator Fog()
     {
         yield return new WaitForSeconds(fogTimer);
+
+        if (IsPaused)
+            yield return new WaitUntil(() => !IsPaused);
 
         StartCoroutine(Density());
     }

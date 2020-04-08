@@ -9,7 +9,7 @@ using UnityEngine;
 /// This script can be found on this website: https://sharpcoderblog.com/blog/third-person-camera-in-unity-3d
 /// and is not an original script created by me.
 /// </summary>
-public class PlayerController : MonoBehaviour
+public class PlayerController : Pausable
 {
     public float speed = 7.5f;
     public float jumpSpeed = 8.0f;
@@ -28,8 +28,10 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public bool canMove = true;
 
-    void Start()
+    override protected void Start()
     {
+        base.Start();
+
         Dead = false;
         GetComponent<PlayerShoot>().Dead = false;
         characterController = GetComponent<CharacterController>();
@@ -38,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Dead)
+        if (Dead || IsPaused)
             return;
 
         if (characterController.isGrounded)

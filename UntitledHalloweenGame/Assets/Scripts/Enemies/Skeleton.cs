@@ -173,7 +173,7 @@ public class DeadState : IState
 //[RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
 
-public class Skeleton : MonoBehaviour
+public class Skeleton : Pausable
 {
     [SerializeField]
     Melee melee;
@@ -190,8 +190,10 @@ public class Skeleton : MonoBehaviour
     bool ambush = true;
 
     // Start is called before the first frame update
-    void Start()
+    override protected void Start()
     {
+        base.Start();
+
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -202,6 +204,14 @@ public class Skeleton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IsPaused)
+        {
+            if (agent) agent.isStopped = true;
+            return;
+        }
+        else
+            if (agent) agent.isStopped = false;
+
         stateMachine.Update();
 
         if (ambush)

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Melee : MonoBehaviour
+public class Melee : Pausable
 {
     public bool Strike { get; set; }
 
     // Start is called before the first frame update
-    void Start()
+    override protected void Start()
     {
         Strike = false;
     }
@@ -15,6 +15,9 @@ public class Melee : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IsPaused)
+            return;
+
         if (Strike)
         {
             Collider[] hitCollider = Physics.OverlapSphere(transform.position, 0.3f);

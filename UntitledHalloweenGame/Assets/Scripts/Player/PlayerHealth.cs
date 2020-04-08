@@ -43,8 +43,19 @@ public class PlayerHealth : MonoBehaviour
     {
         if (Input.GetButtonUp("Cancel"))
         {
-            GetComponent<PlayerController>().Dead = !GetComponent<PlayerController>().Dead;
-            GetComponent<PlayerShoot>().Dead = !GetComponent<PlayerShoot>().Dead;
+            Pausable[] pausables = FindObjectsOfType<Pausable>();
+            for (int i = 0; i < pausables.Length; i++)
+            {
+                pausables[i].IsPaused = !pausables[i].IsPaused;
+
+                if (pausables[i].gameObject.GetComponent<Animator>())
+                {
+                    pausables[i].gameObject.GetComponent<Animator>().enabled = !pausables[i].gameObject.GetComponent<Animator>().enabled;
+                }
+
+            }
+            //GetComponent<PlayerController>().Dead = !GetComponent<PlayerController>().Dead;
+            //GetComponent<PlayerShoot>().Dead = !GetComponent<PlayerShoot>().Dead;
 
             Cursor.lockState = pauseMenu.activeSelf ? CursorLockMode.Locked : CursorLockMode.None;
             Cursor.visible = !Cursor.visible;

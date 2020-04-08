@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Controls the Players shooting mechanic
 /// </summary>
-public class PlayerShoot : MonoBehaviour
+public class PlayerShoot : Pausable
 {
     public Transform projectileStart;
     public GameObject projectile;
@@ -20,7 +20,7 @@ public class PlayerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Dead)
+        if (Dead || IsPaused)
             return;
 
         if (Input.GetMouseButtonDown(0) && canShoot)
