@@ -9,11 +9,10 @@ public class GameTimer : Pausable
     Text m_timerText;
 
     // Start is called before the first frame update
-    void Start()
+    override protected void Start()
     {
         m_timerText = GameObject.FindGameObjectWithTag("Timer").GetComponent<Text>();
-
-        StartCoroutine(Timer());
+        m_timerText.text = ((int)Time / 60).ToString() + " : " + (Time % 60).ToString("F2");
     }
 
     IEnumerator Timer()
@@ -28,5 +27,10 @@ public class GameTimer : Pausable
 
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    public void StartTimer()
+    {
+        StartCoroutine(Timer());
     }
 }

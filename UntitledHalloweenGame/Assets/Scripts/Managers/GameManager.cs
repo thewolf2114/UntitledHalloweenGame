@@ -9,15 +9,17 @@ public class GameManager : Pausable
     GameObject levelGenerator, player;
 
     [SerializeField]
-    GameObject gameTimer;
+    GameObject gameTimerObject;
 
     public static GameManager Instance { get; private set; }
 
     private NavigationBaker baker;
 
+    GameTimer gameTimerScript;
     Text enemyText;
     string startText;
-    int enemyCount;
+    int startEnemyCount;
+    int currEnemyCount;
 
     float fogTimer = 15;
     float gameTime = 600f;
@@ -46,11 +48,14 @@ public class GameManager : Pausable
 
         baker = GetComponent<NavigationBaker>();
 
-        GameObject timer = Instantiate(gameTimer);
-        timer.GetComponent<GameTimer>().Time = gameTime;
+        GameObject timer = Instantiate(gameTimerObject);
+        gameTimerScript = timer.GetComponent<GameTimer>();
+        gameTimerScript.Time = gameTime;
 
         enemyText = GameObject.FindGameObjectWithTag("EnemyText").GetComponent<Text>();
+        startEnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         startText = enemyText.text;
+        enemyText.text = startText + startEnemyCount.ToString();
 
         StartCoroutine(Fog());
     }
@@ -72,8 +77,7 @@ public class GameManager : Pausable
     // Update is called once per frame
     void Update()
     {
-        enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        enemyText.text = startText + enemyCount.ToString();
+        
     }
 
     /// <summary>
@@ -104,6 +108,20 @@ public class GameManager : Pausable
             Debug.Log(currDensity);
         }
 
+    }
+
+    public void StartGameTimer()
+    {
+        startEnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        currEnemyCount = startEnemyCount;
+        enemyText.text = startText + currEnemyCount.ToString() + " / " + startEnemyCount.ToString();
+        gameTimerScript.StartTimer();
+    }
+
+    public void EnemyDied()
+    {
+        currEnemyCount--;
+        enemyText.text = startText + currEnemyCount.ToString() + " / " + startEnemyCount.ToString();
     }
 
     void CalculateScore()

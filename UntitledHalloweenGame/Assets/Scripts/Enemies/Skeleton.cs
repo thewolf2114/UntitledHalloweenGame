@@ -309,6 +309,7 @@ public class Skeleton : Pausable
         stateMachine.ChangeState(new DeadState());
         agent.isStopped = true;
         Destroy(agent);
+        GameManager.Instance.EnemyDied();
         StartCoroutine(DeadTimer());
     }
 
@@ -321,6 +322,7 @@ public class Skeleton : Pausable
             stateMachine.ChangeState(new DeadState());
             agent.isStopped = true;
             Destroy(agent);
+            GameManager.Instance.EnemyDied();
             StartCoroutine(DeadTimer());
         }
     }

@@ -21,6 +21,7 @@ public class StartFinish : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        GameManager.Instance.StartGameTimer();
         GetComponent<MeshRenderer>().material = startMat;
     }
 }

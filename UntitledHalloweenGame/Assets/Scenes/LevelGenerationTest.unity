@@ -821,6 +821,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3872530620886935982, guid: e3f503f359bc83349a0c34137e80e864,
         type: 3}
+    - target: {fileID: 570560400096517339, guid: 35dd84a78d143614b94b634c86ca647a,
+        type: 3}
+      propertyPath: gameTimerObject
+      value: 
+      objectReference: {fileID: 3879046034826674188, guid: 32ab010158d75d44cb04ad66fb3ea343,
+        type: 3}
     - target: {fileID: 702258604551642020, guid: 35dd84a78d143614b94b634c86ca647a,
         type: 3}
       propertyPath: m_LocalPosition.x
