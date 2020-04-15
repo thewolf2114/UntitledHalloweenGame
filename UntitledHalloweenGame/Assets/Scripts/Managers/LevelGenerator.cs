@@ -67,8 +67,8 @@ public class LevelGenerator : MonoBehaviour
         deadEnd.transform.rotation *= (randomRotation == 0) ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, 180, 0);
 
         GameObject startGate = Instantiate(startFinish, LocalToGlobal(currPosition), Quaternion.identity);
-        startGate.transform.position += (randomRotation != 0) ? (Vector3.forward * 10) : (Vector3.right * 10);
-        startGate.transform.rotation *= (randomRotation != 0) ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 90, 0);
+        startGate.transform.position += (randomRotation == 0) ? (Vector3.forward * 10) : (Vector3.right * 10);
+        startGate.transform.rotation *= (randomRotation == 0) ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 90, 0);
 
         // getting all the connection points that are on the starting section and initialize the road grid
         Queue<GameObject> connectionPoints = new Queue<GameObject>(deadEnd.GetComponent<RoadConnections>().Connections);
@@ -164,6 +164,11 @@ public class LevelGenerator : MonoBehaviour
                     surfaces.Add(deadEnd.GetComponent<NavMeshSurface>());
                     randomRotation = Random.Range(0, 2);
                     deadEnd.transform.rotation *= (randomRotation == 0) ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, 180, 0);
+
+                    Destroy(startGate);
+                    startGate = Instantiate(startFinish, LocalToGlobal(currPosition), Quaternion.identity);
+                    startGate.transform.position += (randomRotation == 0) ? (Vector3.forward * 10) : (Vector3.right * 10);
+                    startGate.transform.rotation *= (randomRotation == 0) ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 90, 0);
 
                     // reset the road grid
                     for (int i = 0; i <= Constants.LEVEL_WIDTH; i++)

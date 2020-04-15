@@ -13,6 +13,7 @@ TagManager:
   - Timer
   - EnemyText
   - Enemy
+  - Light
   layers:
   - Default
   - TransparentFX

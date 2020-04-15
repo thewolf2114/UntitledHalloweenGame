@@ -6,13 +6,17 @@ using UnityEngine.UI;
 public class GameTimer : Pausable
 {
     public float Time { get; set; }
+    float minutes, seconds;
     Text m_timerText;
 
     // Start is called before the first frame update
     override protected void Start()
     {
+        minutes = Mathf.Floor(Time / 60);
+        seconds = Time % 60;
+
         m_timerText = GameObject.FindGameObjectWithTag("Timer").GetComponent<Text>();
-        m_timerText.text = ((int)Time / 60).ToString() + " : " + (Time % 60).ToString("F2");
+        m_timerText.text = minutes.ToString() + " : " + seconds.ToString("F2");
     }
 
     IEnumerator Timer()
@@ -20,7 +24,10 @@ public class GameTimer : Pausable
         while(Time > 0)
         {
             Time -= UnityEngine.Time.deltaTime;
-            m_timerText.text = ((int)Time / 60).ToString() + " : " + (Time % 60).ToString("F2");
+            minutes = Mathf.Floor(Time / 60);
+            seconds = Time % 60;
+
+            m_timerText.text = minutes.ToString() + " : " + seconds.ToString("F2"); 
 
             if (IsPaused)
                 yield return new WaitUntil(() => !IsPaused);

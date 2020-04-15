@@ -54,9 +54,6 @@ public class PlayerHealth : MonoBehaviour
                 }
 
             }
-            //GetComponent<PlayerController>().Dead = !GetComponent<PlayerController>().Dead;
-            //GetComponent<PlayerShoot>().Dead = !GetComponent<PlayerShoot>().Dead;
-
             Cursor.lockState = pauseMenu.activeSelf ? CursorLockMode.Locked : CursorLockMode.None;
             Cursor.visible = !Cursor.visible;
             pauseMenu.SetActive(!pauseMenu.activeSelf);
@@ -67,7 +64,6 @@ public class PlayerHealth : MonoBehaviour
     {
         if (!isHit)
         {
-            Debug.Log("Hit Player");
             isHit = true;
             currHealth -= damage;
 
