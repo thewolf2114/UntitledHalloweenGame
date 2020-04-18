@@ -17,9 +17,13 @@ public class GameManager : Pausable
 
     GameTimer gameTimerScript;
     Text enemyText;
-    string startText;
+    Text candyText;
+    string enemyStartText;
+    string candyStartText;
     int startEnemyCount;
     int currEnemyCount;
+    int startCandyCount;
+    int currCandyCount;
 
     float fogTimer = 15;
     float gameTime = 600f;
@@ -54,8 +58,12 @@ public class GameManager : Pausable
 
         enemyText = GameObject.FindGameObjectWithTag("EnemyText").GetComponent<Text>();
         startEnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        startText = enemyText.text;
-        enemyText.text = startText + startEnemyCount.ToString();
+        enemyStartText = enemyText.text;
+        enemyText.text = enemyStartText + startEnemyCount.ToString();
+
+        candyText = GameObject.FindGameObjectWithTag("Candy").GetComponent<Text>();
+        candyStartText = candyText.text;
+        candyText.text = candyStartText + startCandyCount.ToString();
 
         StartCoroutine(Fog());
     }
@@ -110,18 +118,33 @@ public class GameManager : Pausable
 
     }
 
+    public void AddCandy(int amount)
+    {
+        startCandyCount += amount;
+    }
+
+    public void AddCurrCandy(int amount)
+    {
+        currCandyCount += amount;
+        candyText.text = candyStartText + currCandyCount.ToString() + " / " + startCandyCount.ToString();
+    }
+
     public void StartGameTimer()
     {
         startEnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         currEnemyCount = startEnemyCount;
-        enemyText.text = startText + currEnemyCount.ToString() + " / " + startEnemyCount.ToString();
+        enemyText.text = enemyStartText + currEnemyCount.ToString() + " / " + startEnemyCount.ToString();
+
+        currCandyCount = 0;
+        candyText.text = candyStartText + currCandyCount.ToString() + " / " + startCandyCount.ToString();
+
         gameTimerScript.StartTimer();
     }
 
     public void EnemyDied()
     {
         currEnemyCount--;
-        enemyText.text = startText + currEnemyCount.ToString() + " / " + startEnemyCount.ToString();
+        enemyText.text = enemyStartText + currEnemyCount.ToString() + " / " + startEnemyCount.ToString();
     }
 
     void CalculateScore()

@@ -187,6 +187,7 @@ public class Skeleton : Pausable
     float pauseTimer = 3;
     int disapearSpeed = 1;
     bool dead = false;
+    bool attacking = false;
     bool ambush = true;
 
     // Start is called before the first frame update
@@ -217,7 +218,7 @@ public class Skeleton : Pausable
         if (ambush)
             return;
 
-        if (agent && AtEndOfPath() && !dead)
+        if (agent && AtEndOfPath() && !dead && !attacking)
         {
             if (Vector3.Distance(transform.position, player.transform.position) <= agent.stoppingDistance)
             {
@@ -234,7 +235,7 @@ public class Skeleton : Pausable
 
         if (!dead && stateMachine.CurrentState == StateMachine.States.Attack)
         {
-            dead = true;
+            attacking = true;
             StartCoroutine(PauseTimer());
         }
     }

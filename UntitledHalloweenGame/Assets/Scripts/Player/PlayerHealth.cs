@@ -6,13 +6,12 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     GameObject deadMenu, pauseMenu;
-    Text candyText;
     Slider healthBar;
 
     LayerMask damageLayer;
 
     string originalText;
-    int currHealth, maxHealth, currCandy = 0, maxCandy = 100, damage = 10;
+    int currHealth, maxHealth, damage = 10;
     float hitTimer = 0.8f;
     bool isHit = false;
 
@@ -20,7 +19,6 @@ public class PlayerHealth : MonoBehaviour
     {
         deadMenu = GameObject.FindGameObjectWithTag("GameOver");
         pauseMenu = GameObject.FindGameObjectWithTag("Pause");
-        candyText = GameObject.FindGameObjectWithTag("Candy").GetComponent<Text>();
         healthBar = GameObject.FindGameObjectWithTag("HealthBar").GetComponent<Slider>();
 
         deadMenu.SetActive(false);
@@ -29,9 +27,6 @@ public class PlayerHealth : MonoBehaviour
         maxHealth = 100;
         currHealth = maxHealth;
         healthBar.value = ((float)currHealth / maxHealth);
-
-        originalText = candyText.text;
-        candyText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
 
         damageLayer = LayerMask.NameToLayer("Melee");
 
@@ -85,39 +80,12 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private void OnControllerColliderHit(ControllerColliderHit collision)
-    {
-        //if (!isHit && collision.gameObject.layer == damageLayer)
-        //{
-        //    Debug.Log("Hit Player");
-        //    isHit = true;
-        //    currHealth -= damage;
-
-        //    if (currHealth < 0)
-        //        currHealth = 0;
-
-        //    healthBar.value = ((float)currHealth / maxHealth);
-
-        //    if (currHealth <= 0)
-        //    {
-        //        GetComponent<PlayerController>().Dead = true;
-        //        GetComponent<PlayerShoot>().Dead = true;
-
-        //        Cursor.lockState = CursorLockMode.None;
-        //        Cursor.visible = true;
-        //        deadMenu.SetActive(true);
-        //    }
-        //    StartCoroutine(HitTimer());
-        //}
-    }
-
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("PickUp"))
         {
             int pickUpAmount = other.gameObject.GetComponentInParent<CandyPickup>().PickUpAmount;
-            currCandy = (currCandy + pickUpAmount) >= maxCandy ? maxCandy : currCandy + pickUpAmount;
-            candyText.text = originalText + currCandy.ToString() + " / " + maxCandy.ToString();
+            GameManager.Instance.AddCurrCandy(pickUpAmount);
             Destroy(other.transform.root.gameObject);
         }
     }
