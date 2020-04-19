@@ -13,27 +13,32 @@ public class GameManager : Pausable
 
     public static GameManager Instance { get; private set; }
 
-    private NavigationBaker baker;
+    NavigationBaker baker;
 
+    // game timer
     GameTimer gameTimerScript;
+
+    // UI manipulation
     Text enemyText;
     Text candyText;
     string enemyStartText;
     string candyStartText;
+
+    // score calculation
     int startEnemyCount;
     int currEnemyCount;
     int startCandyCount;
     int currCandyCount;
+    float score;
 
+    // timers
     float fogTimer = 15;
     float gameTime = 600f;
+
+    // fog
     float densityIncrease = 0.0001f;
     float currDensity = 0.0f;
     float finalDensity = 0.015f;
-
-    float score = 0;
-    int startingNumEnemies;
-    int endNumEnemies;
 
     void Awake()
     {
@@ -147,8 +152,26 @@ public class GameManager : Pausable
         enemyText.text = enemyStartText + currEnemyCount.ToString() + " / " + startEnemyCount.ToString();
     }
 
-    void CalculateScore()
+    public void EndGame()
     {
-
+        score = CalculateScore();
+        Destroy(gameTimerScript);
+        Debug.Log("Score: " + score);
     }
+
+    float CalculateScore()
+    {
+        // calculate the score for the enemies
+        float enemyScore = ((1 - ((float)currEnemyCount / startEnemyCount))) * Constants.ENEMY_TOTAL_SCORE;
+
+        // calculate the score for the candy
+        float candyScore = ((float)currCandyCount / startCandyCount) * Constants.CANDY_TOTAL_SCORE;
+
+        // calculate total score based on time remaining
+        float totalScore = (enemyScore + candyScore) * (gameTimerScript.Time / gameTime);
+
+        return totalScore;
+    }
+
+    
 }

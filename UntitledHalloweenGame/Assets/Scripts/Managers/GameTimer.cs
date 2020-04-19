@@ -9,6 +9,8 @@ public class GameTimer : Pausable
     float minutes, seconds;
     Text m_timerText;
 
+    bool timerPaused = false;
+
     // Start is called before the first frame update
     override protected void Start()
     {
@@ -21,15 +23,15 @@ public class GameTimer : Pausable
 
     IEnumerator Timer()
     {
-        while(Time > 0)
+        while (Time > 0)
         {
             Time -= UnityEngine.Time.deltaTime;
             minutes = Mathf.Floor(Time / 60);
             seconds = Time % 60;
 
-            m_timerText.text = minutes.ToString() + " : " + seconds.ToString("F2"); 
+            m_timerText.text = minutes.ToString() + " : " + seconds.ToString("F2");
 
-            if (IsPaused)
+            if (IsPaused || timerPaused)
                 yield return new WaitUntil(() => !IsPaused);
 
             yield return new WaitForEndOfFrame();
