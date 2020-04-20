@@ -36,6 +36,8 @@ public class GameTimer : Pausable
 
             yield return new WaitForEndOfFrame();
         }
+
+        GameManager.Instance.EndGame();
     }
 
     public void StartTimer()

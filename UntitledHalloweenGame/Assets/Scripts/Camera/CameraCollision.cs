@@ -27,7 +27,7 @@ public class CameraCollision : MonoBehaviour
         parentTransform = transform.parent;
         defaultDistance = Vector3.Distance(defaultPos, Vector3.zero);
 
-        notThese = ~((1 << 9) | (1 << 18) | (1 << 16) | (1 << 17) | (1 << 0));
+        notThese = ~((1 << 9) | (1 << 18) | (1 << 16) | (1 << 17) | (1 << 0) | (1 << 11));
     }
 
     // FixedUpdate for physics calculations
