@@ -369,6 +369,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+--- !u!114 &611670777 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2351416215443751078, guid: acec13cb312a3d64fb1dc71bb07a0e08,
+    type: 3}
+  m_PrefabInstance: {fileID: 1151566531}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &862492983
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -571,6 +583,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5607298666631038697, guid: acec13cb312a3d64fb1dc71bb07a0e08,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7988041829242370215, guid: acec13cb312a3d64fb1dc71bb07a0e08,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -581,8 +598,19 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9111268612044096081, guid: acec13cb312a3d64fb1dc71bb07a0e08,
+        type: 3}
+      propertyPath: scoreText
+      value: 
+      objectReference: {fileID: 611670777}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acec13cb312a3d64fb1dc71bb07a0e08, type: 3}
+--- !u!1 &1215029615 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5607298666631038697, guid: acec13cb312a3d64fb1dc71bb07a0e08,
+    type: 3}
+  m_PrefabInstance: {fileID: 1151566531}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5264346260125253143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -602,6 +630,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3879046034826674188, guid: 32ab010158d75d44cb04ad66fb3ea343,
         type: 3}
+    - target: {fileID: 570560400096517339, guid: 35dd84a78d143614b94b634c86ca647a,
+        type: 3}
+      propertyPath: gameWin
+      value: 
+      objectReference: {fileID: 1215029615}
     - target: {fileID: 702258604551642020, guid: 35dd84a78d143614b94b634c86ca647a,
         type: 3}
       propertyPath: m_LocalPosition.x

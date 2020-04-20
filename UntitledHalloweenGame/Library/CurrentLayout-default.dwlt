@@ -112,10 +112,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 947
-  m_MinSize: {x: 911, y: 444}
-  m_MaxSize: {x: 22006, y: 14022}
+  m_MinSize: {x: 917, y: 444}
+  m_MaxSize: {x: 22012, y: 14022}
   vertical: 0
-  controlID: 2058
+  controlID: 18148
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -137,10 +137,10 @@ MonoBehaviour:
     y: 0
     width: 436
     height: 947
-  m_MinSize: {x: 432, y: 372}
-  m_MaxSize: {x: 14002, y: 14022}
+  m_MinSize: {x: 436, y: 372}
+  m_MaxSize: {x: 14006, y: 14022}
   vertical: 1
-  controlID: 2081
+  controlID: 18050
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -162,10 +162,10 @@ MonoBehaviour:
     y: 0
     width: 436
     height: 632
-  m_MinSize: {x: 432, y: 272}
-  m_MaxSize: {x: 14002, y: 10022}
+  m_MinSize: {x: 436, y: 272}
+  m_MaxSize: {x: 14006, y: 10022}
   vertical: 0
-  controlID: 2082
+  controlID: 18051
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -268,7 +268,7 @@ MonoBehaviour:
   m_MinSize: {x: 204, y: 444}
   m_MaxSize: {x: 4004, y: 8044}
   vertical: 1
-  controlID: 2059
+  controlID: 18149
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -473,7 +473,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Managers
+    - Assets/Prefabs/StreetModels/Houses/Corner
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
@@ -510,7 +510,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 1236}
+    scrollPos: {x: 0, y: 576}
     m_SelectedIDs: 
     m_LastClickedID: 0
     m_ExpandedIDs: ffffffff000000005e350000da350000e2350000f2350000743700007a3700005a38000000390000683a0000943a0000da3a00006c3b0000003c00002e3d0000883d0000063e00006c3e0000843f0000144000002c400000344000009e400000b4400000ea4100001c4200003e4300006443000002440000ea4400001a450000c04500008a460000e84600001447000028470000744700008a470000da470000e847000096480000b6480000e048000000490000f0490000384a00006c4a0000904a00000a4b0000e04b0000644c00004c4e00006a4e000064500000225100002651000050510000a852000062530000d2530000d4530000de5300000c5400006654000078540000885400004eee000050ee0000
@@ -598,9 +598,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 502c0000
-      m_LastClickedID: 0
-      m_ExpandedIDs: 76fbffff
+      m_SelectedIDs: b4660200
+      m_LastClickedID: 157364
+      m_ExpandedIDs: b45880ff1e6602005e66020076660200846602008c660200e4660200f6660200
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -686,9 +686,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 14.088675, y: 1.7616835, z: -9.6637535}
+    m_Target: {x: -37.19373, y: -2.635542, z: -12.513533}
     speed: 2
-    m_Value: {x: 14.088675, y: 1.7616835, z: -9.6637535}
+    m_Value: {x: -37.19373, y: -2.635542, z: -12.513533}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -699,7 +699,7 @@ MonoBehaviour:
   m_SceneViewState:
     showFog: 1
     showMaterialUpdate: 1
-    showSkybox: 1
+    showSkybox: 0
     showFlares: 1
     showImageEffects: 1
     showParticleSystems: 1
@@ -717,13 +717,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.011538583, y: -0.2746791, z: 0.0033121628, w: 0.9617516}
+    m_Target: {x: 0.049861744, y: -0.75811636, z: 0.060333565, w: 0.6479541}
     speed: 2
-    m_Value: {x: -0.011538582, y: 0.27467906, z: -0.0033121626, w: -0.9617516}
+    m_Value: {x: -0.049861744, y: 0.75811636, z: -0.060333565, w: -0.6479541}
   m_Size:
-    m_Target: 2.4249954
+    m_Target: 29.817331
     speed: 2
-    m_Value: 2.4249954
+    m_Value: 29.817331
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -742,7 +742,7 @@ MonoBehaviour:
     m_DynamicClip: 0
     m_OcclusionCulling: 0
   m_ShowGlobalGrid: 1
-  m_LastSceneViewRotation: {x: -0.023132397, y: 0.75163656, z: -0.025603466, w: -0.6590478}
+  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -934,7 +934,7 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 225480
+  m_LastSelectedObjectID: 157364
 --- !u!114 &23
 MonoBehaviour:
   m_ObjectHideFlags: 52

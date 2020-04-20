@@ -297,6 +297,7 @@ public class Skeleton : Pausable
         yield return new WaitForSeconds(pauseTimer);
 
         dead = false;
+        attacking = false;
         stateMachine.ChangeState(new RunState());
     }
 
@@ -321,7 +322,7 @@ public class Skeleton : Pausable
             dead = true;
             stateMachine.Dead = true;
             stateMachine.ChangeState(new DeadState());
-            agent.isStopped = true;
+            if (agent) agent.isStopped = true;
             Destroy(agent);
             GameManager.Instance.EnemyDied();
             StartCoroutine(DeadTimer());

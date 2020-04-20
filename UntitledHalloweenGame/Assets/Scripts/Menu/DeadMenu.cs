@@ -11,4 +11,9 @@ public class DeadMenu : MonoBehaviour
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void OnQuitButtonClicked()
+    {
+        SceneManager.LoadScene(0);
+    }
 }

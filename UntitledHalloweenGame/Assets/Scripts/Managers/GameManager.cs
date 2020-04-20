@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameManager : Pausable
 {
     [SerializeField]
-    GameObject levelGenerator, player;
+    GameObject levelGenerator, player, gameWin;
 
     [SerializeField]
     GameObject gameTimerObject;
@@ -45,10 +45,7 @@ public class GameManager : Pausable
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
         }
-        else
-            Destroy(gameObject);
 
         if (levelGenerator)
             Instantiate(levelGenerator);
@@ -69,6 +66,8 @@ public class GameManager : Pausable
         candyText = GameObject.FindGameObjectWithTag("Candy").GetComponent<Text>();
         candyStartText = candyText.text;
         candyText.text = candyStartText + startCandyCount.ToString();
+
+        gameWin.SetActive(false);
 
         StartCoroutine(Fog());
     }
@@ -156,7 +155,23 @@ public class GameManager : Pausable
     {
         score = CalculateScore();
         Destroy(gameTimerScript);
-        Debug.Log("Score: " + score);
+
+        Pausable[] pausables = FindObjectsOfType<Pausable>();
+        for (int i = 0; i < pausables.Length; i++)
+        {
+            pausables[i].IsPaused = !pausables[i].IsPaused;
+
+            if (pausables[i].gameObject.GetComponent<Animator>())
+            {
+                pausables[i].gameObject.GetComponent<Animator>().enabled = !pausables[i].gameObject.GetComponent<Animator>().enabled;
+            }
+
+        }
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        gameWin.SetActive(true);
+        gameWin.GetComponent<GameWinMenu>().SetScoreText("Score: " + Mathf.Floor(score));
     }
 
     float CalculateScore()
@@ -168,7 +183,7 @@ public class GameManager : Pausable
         float candyScore = ((float)currCandyCount / startCandyCount) * Constants.CANDY_TOTAL_SCORE;
 
         // calculate total score based on time remaining
-        float totalScore = (enemyScore + candyScore) * (gameTimerScript.Time / gameTime);
+        float totalScore = (enemyScore + candyScore) * (1 - (gameTimerScript.Time / gameTime));
 
         return totalScore;
     }

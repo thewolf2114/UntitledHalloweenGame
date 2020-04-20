@@ -37,6 +37,8 @@ public class StartFinish : MonoBehaviour
         {
             waiting = true;
             GameManager.Instance.EndGame();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             GetComponent<MeshRenderer>().material = idleMat;
         }
     }
