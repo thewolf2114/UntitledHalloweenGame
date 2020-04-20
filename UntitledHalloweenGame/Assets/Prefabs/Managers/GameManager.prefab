@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 702258604551642020}
   - component: {fileID: 570560400096517339}
+  - component: {fileID: 969693521}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46,3 +47,17 @@ MonoBehaviour:
   levelGenerator: {fileID: 6074808622642961087, guid: a9f11333fdb4e9f48a5e23eabe2cd875,
     type: 3}
   player: {fileID: 1436789549329676564, guid: f5997b801ccc1dc4d8b2dd7e79f6495f, type: 3}
+  gameTimer: {fileID: 3879046034826674188, guid: 32ab010158d75d44cb04ad66fb3ea343,
+    type: 3}
+--- !u!114 &969693521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7404235397802967980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e627422716518f4b904302590f88311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

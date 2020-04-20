@@ -17,7 +17,7 @@ public class CameraCollision : MonoBehaviour
     Transform parentTransform;
     float defaultDistance;
 
-    LayerMask notProjectileMask;
+    LayerMask notThese;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +27,7 @@ public class CameraCollision : MonoBehaviour
         parentTransform = transform.parent;
         defaultDistance = Vector3.Distance(defaultPos, Vector3.zero);
 
-        notProjectileMask = ~(1 << 9);
+        notThese = ~((1 << 9) | (1 << 18) | (1 << 16) | (1 << 17) | (1 << 0));
     }
 
     // FixedUpdate for physics calculations
@@ -36,7 +36,7 @@ public class CameraCollision : MonoBehaviour
         Vector3 currentPos = defaultPos;
         RaycastHit hit;
         Vector3 dirTmp = parentTransform.TransformPoint(defaultPos) - referenceTransform.position;
-        if (Physics.SphereCast(referenceTransform.position, collisionOffset, dirTmp, out hit, defaultDistance, notProjectileMask))
+        if (Physics.SphereCast(referenceTransform.position, collisionOffset, dirTmp, out hit, defaultDistance, notThese))
         {
             currentPos = (directionNormalized * (hit.distance - collisionOffset));
         }

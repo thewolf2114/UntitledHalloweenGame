@@ -10,9 +10,19 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     public void OnResumeButtonClick()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<PlayerController>().Dead = false;
-        player.GetComponent<PlayerShoot>().Dead = false;
+        Pausable[] pausables = FindObjectsOfType<Pausable>();
+        for (int i = 0; i < pausables.Length; i++)
+        {
+            pausables[i].IsPaused = false;
+
+            if (pausables[i].gameObject.GetComponent<Animator>())
+            {
+                pausables[i].gameObject.GetComponent<Animator>().enabled = true;
+            }
+        }
+        //GameObject player = GameObject.FindGameObjectWithTag("Player");
+        //player.GetComponent<PlayerController>().Dead = false;
+        //player.GetComponent<PlayerShoot>().Dead = false;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -24,6 +34,6 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     public void OnQuitButtonClick()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("MainMenu");
     }
 }

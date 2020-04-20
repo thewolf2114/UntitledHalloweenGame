@@ -173,7 +173,7 @@ public class DeadState : IState
 //[RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
 
-public class Skeleton : MonoBehaviour
+public class Skeleton : Pausable
 {
     [SerializeField]
     Melee melee;
@@ -187,11 +187,14 @@ public class Skeleton : MonoBehaviour
     float pauseTimer = 3;
     int disapearSpeed = 1;
     bool dead = false;
+    bool attacking = false;
     bool ambush = true;
 
     // Start is called before the first frame update
-    void Start()
+    override protected void Start()
     {
+        base.Start();
+
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -202,12 +205,20 @@ public class Skeleton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IsPaused)
+        {
+            if (agent) agent.isStopped = true;
+            return;
+        }
+        else
+            if (agent) agent.isStopped = false;
+
         stateMachine.Update();
 
         if (ambush)
             return;
 
-        if (agent && AtEndOfPath() && !dead)
+        if (agent && AtEndOfPath() && !dead && !attacking)
         {
             if (Vector3.Distance(transform.position, player.transform.position) <= agent.stoppingDistance)
             {
@@ -224,7 +235,7 @@ public class Skeleton : MonoBehaviour
 
         if (!dead && stateMachine.CurrentState == StateMachine.States.Attack)
         {
-            dead = true;
+            attacking = true;
             StartCoroutine(PauseTimer());
         }
     }
@@ -286,6 +297,7 @@ public class Skeleton : MonoBehaviour
         yield return new WaitForSeconds(pauseTimer);
 
         dead = false;
+        attacking = false;
         stateMachine.ChangeState(new RunState());
     }
 
@@ -299,6 +311,7 @@ public class Skeleton : MonoBehaviour
         stateMachine.ChangeState(new DeadState());
         agent.isStopped = true;
         Destroy(agent);
+        GameManager.Instance.EnemyDied();
         StartCoroutine(DeadTimer());
     }
 
@@ -309,8 +322,9 @@ public class Skeleton : MonoBehaviour
             dead = true;
             stateMachine.Dead = true;
             stateMachine.ChangeState(new DeadState());
-            agent.isStopped = true;
+            if (agent) agent.isStopped = true;
             Destroy(agent);
+            GameManager.Instance.EnemyDied();
             StartCoroutine(DeadTimer());
         }
     }

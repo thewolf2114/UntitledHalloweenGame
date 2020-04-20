@@ -66,5 +66,5 @@ MonoBehaviour:
     type: 3}
   emptySection: {fileID: 6033588210315445362, guid: 86c0a02586c77864da528cc3e3c81751,
     type: 3}
-  skeleton: {fileID: 7914578459014485572, guid: b2634424fc3883f4985e7f4c271cb311,
+  startFinish: {fileID: 3872530620886935982, guid: e3f503f359bc83349a0c34137e80e864,
     type: 3}

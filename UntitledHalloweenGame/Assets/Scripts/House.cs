@@ -5,87 +5,44 @@ using UnityEngine;
 public class House : MonoBehaviour
 {
     [SerializeField]
-    List<Material> houseSkins;
+    GameObject candy, candySpawn, porchLight;
 
-    private void Start()
+    float candySpacingTimer = 0.3f;
+
+    public int NumCandy { get; private set; }
+
+    void Start()
     {
-        MeshRenderer currMesh = GetComponent<MeshRenderer>();
-        ChildHouseFlag childFlag = GetComponentInChildren<ChildHouseFlag>();
-        GameObject child = (childFlag != null) ? childFlag.gameObject : null;
-        MeshRenderer childMesh = (child != null) ? child.GetComponent<MeshRenderer>() : null;
-        Material[] materials = currMesh.materials;
-        Material[] childMaterials = (childMesh != null) ? childMesh.materials : new Material[0];
-        int randomSkin = Random.Range(0, houseSkins.Count);
-        
-        for (int i = 0; i < materials.Length; i++)
+        NumCandy = Random.Range(0, 6);
+        if (NumCandy == 0)
         {
-            if (materials[i].name == "Window_Glass_Opaque (Instance)")
-                continue;
-
-            materials[i] = houseSkins[randomSkin];
+            porchLight.SetActive(false);
+            GetComponent<SphereCollider>().enabled = false;
         }
 
-        currMesh.materials = materials;
+        if (GameManager.Instance) GameManager.Instance.AddCandy(NumCandy);
+    }
 
-        if (childMesh != null)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            for (int i = 0; i < childMaterials.Length; i++)
-            {
-                if (childMaterials[i].name == "Window_Glass_Opaque (Instance)")
-                    continue;
-
-                childMaterials[i] = houseSkins[randomSkin];
-            }
-
-            childMesh.materials = childMaterials;
+            StartCoroutine(GiveCandy());
         }
     }
-    //public Transform candySpawn;
-    //public GameObject candyPickUp;
-    //float candyTimer = 0.2f;
-    //int candyAmount;
-    //bool dispenseCandy = false;
-    //bool hasCandy = true;
 
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-    //    candyAmount = Random.Range(1, 5);
-    //}
+    IEnumerator GiveCandy()
+    {
+        while (NumCandy > 0)
+        {
+            GameObject candySpawned = Instantiate(candy, candySpawn.transform.position, Quaternion.identity);
+            candySpawned.transform.rotation = candySpawn.transform.rotation;
+            NumCandy--;
 
-    //void Update()
-    //{
-    //    if(dispenseCandy && hasCandy)
-    //    {
-    //        dispenseCandy = false;
-    //        Instantiate(candyPickUp, candySpawn.position, Quaternion.identity);
-    //        candyAmount--;
+            yield return new WaitForSeconds(candySpacingTimer);
+        }
 
-    //        if (candyAmount == 0)
-    //        {
-    //            hasCandy = false;
-    //        }
-
-    //        StartCoroutine("CandyTimer");
-    //    }
-    //}
-
-    //void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
-    //        dispenseCandy = true;
-    //}
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
-    //        dispenseCandy = false;
-    //}
-
-    //IEnumerator CandyTimer()
-    //{
-    //    yield return new WaitForSeconds(candyTimer);
-
-    //    dispenseCandy = true;
-    //}
+        GetComponent<SphereCollider>().enabled = false;
+        porchLight.SetActive(false);
+    }
 }

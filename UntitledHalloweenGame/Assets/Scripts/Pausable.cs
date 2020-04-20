@@ -11,12 +11,4 @@ public class Pausable : MonoBehaviour
     {
         IsPaused = false;
     }
-
-    // Update is called once per frame
-    virtual protected void Update()
-    {
-        if (IsPaused)
-            return;
-
-    }
 }

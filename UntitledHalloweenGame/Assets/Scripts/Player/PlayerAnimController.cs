@@ -2,20 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimController : MonoBehaviour
+public class PlayerAnimController : Pausable
 {
     private Animator playerAnimator;
     private float groundCheckDistance = 1f;
 
     // Start is called before the first frame update
-    void Start()
+    override protected void Start()
     {
+        base.Start();
+
         playerAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (IsPaused)
+            return;
+
         float moveForward = Input.GetAxis("Vertical");
         float moveRight = Input.GetAxis("Horizontal");
         float moveVal = Mathf.Abs(moveForward) + Mathf.Abs(moveRight);

@@ -15,4 +15,8 @@ public static class Constants
     public const int LINK_START_POINT_OFFSET = 29;
     public const int LINK_END_POINT_OFFSET = 31;
     public const int LINK_WIDTH = 60;
+
+    // scoring
+    public const int ENEMY_TOTAL_SCORE = 10000;
+    public const int CANDY_TOTAL_SCORE = 4000;
 }
