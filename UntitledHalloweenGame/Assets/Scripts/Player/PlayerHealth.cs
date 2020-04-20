@@ -69,8 +69,17 @@ public class PlayerHealth : MonoBehaviour
 
             if (currHealth <= 0)
             {
-                GetComponent<PlayerController>().Dead = true;
-                GetComponent<PlayerShoot>().Dead = true;
+                Pausable[] pausables = FindObjectsOfType<Pausable>();
+                for (int i = 0; i < pausables.Length; i++)
+                {
+                    pausables[i].IsPaused = !pausables[i].IsPaused;
+
+                    if (pausables[i].gameObject.GetComponent<Animator>())
+                    {
+                        pausables[i].gameObject.GetComponent<Animator>().enabled = !pausables[i].gameObject.GetComponent<Animator>().enabled;
+                    }
+
+                }
 
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
