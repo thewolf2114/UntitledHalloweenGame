@@ -2315,7 +2315,17 @@ PrefabInstance:
     - target: {fileID: 1810336313815668609, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
       propertyPath: m_Size
-      value: 1
+      value: 0.30445853
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810336313815668609, guid: c2d0773390d0ac84a8e240015430777d,
+        type: 3}
+      propertyPath: m_Value
+      value: 1.0000013
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810336313815668609, guid: c2d0773390d0ac84a8e240015430777d,
+        type: 3}
+      propertyPath: m_NumberOfSteps
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2525496745288731714, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
@@ -2365,7 +2375,7 @@ PrefabInstance:
     - target: {fileID: 5245156123330088121, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.36780047
+      value: 0.6955415
       objectReference: {fileID: 0}
     - target: {fileID: 5245156123330088121, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
@@ -2395,7 +2405,7 @@ PrefabInstance:
     - target: {fileID: 5478451717846719960, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 329.01
+      value: 683.18
       objectReference: {fileID: 0}
     - target: {fileID: 5478451717846719960, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
@@ -2412,6 +2422,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5947882338460657388, guid: c2d0773390d0ac84a8e240015430777d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a35cc0194a807254fbb0076911f411ae,
+        type: 3}
     - target: {fileID: 6426724429861191692, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -2445,7 +2461,7 @@ PrefabInstance:
     - target: {fileID: 7018300021455761228, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -164.505
+      value: -341.59
       objectReference: {fileID: 0}
     - target: {fileID: 7018300021455761228, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
@@ -2455,7 +2471,7 @@ PrefabInstance:
     - target: {fileID: 7018300021455761228, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 289.01
+      value: 643.18
       objectReference: {fileID: 0}
     - target: {fileID: 7116140585049000281, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
@@ -2530,22 +2546,22 @@ PrefabInstance:
     - target: {fileID: 7646188050672182085, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 174
+      value: 664
       objectReference: {fileID: 0}
     - target: {fileID: 7646188050672182085, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
       propertyPath: m_textInfo.spaceCount
-      value: 31
+      value: 123
       objectReference: {fileID: 0}
     - target: {fileID: 7646188050672182085, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 30
+      value: 121
       objectReference: {fileID: 0}
     - target: {fileID: 7646188050672182085, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 9
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7646188050672182085, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
@@ -2555,19 +2571,15 @@ PrefabInstance:
     - target: {fileID: 7646188050672182085, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
       propertyPath: m_text
-      value: 'Instructions:
-
-
-        WASD: moves the player
-
-        LMB: shoot
-
-        Use the mouse to look around
-
-        Press ESC to pause
-
-
-        Ignore the candy text. I''m working on shifting to a different health system.'
+      value: "Instructions:\nYou are a child trick-or-treating in a small suburban
+        town when all of a sudden, your neighborhood is covered in skeletons. Fight
+        the skeletons and collect candy before you have to return home for the night.
+        \n\nThe gameplay is simple, run through the green start banner to start the
+        timer. It will then let you know how many skeletons and how much candy is
+        in the level. Run around shooting skeletons and collecting candy, and when
+        you are finished run back through the start banner and you will get your score.
+        Take to long, or run out of health, and it is game over.\n\nWASD: moves the
+        player\nLMB: shoot\nUse the mouse to look around\nPress ESC to pause"
       objectReference: {fileID: 0}
     - target: {fileID: 7916904168635919153, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
@@ -2603,6 +2615,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8570265622845411963, guid: c2d0773390d0ac84a8e240015430777d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9134785016793311462, guid: c2d0773390d0ac84a8e240015430777d,
         type: 3}
